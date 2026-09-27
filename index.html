@@ -737,6 +737,40 @@
       color: var(--muted);
     }
 
+    /* Cards do Kit de Ferramentas: nome, rótulo, descrição e funcionalidades */
+    .tool {
+      padding: 22px 24px;
+    }
+
+    .tool h3 {
+      margin-bottom: 4px;
+      color: var(--c);
+    }
+
+    .reveal .tool .tool__tag {
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--subtle);
+    }
+
+    .reveal .tool .tool__desc {
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .reveal .tool .tool__feat {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px dashed color-mix(in srgb, var(--c) 45%, transparent);
+      font-size: 20px;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+
     /* Cards de sentimento */
     .sentiment {
       text-align: center;
@@ -1742,40 +1776,36 @@ print(texto_limpo)
             <p class="lead">Não precisamos reinventar a roda. O ecossistema possui bibliotecas extremamente maduras:</p>
           </header>
 
-          <div class="body cols cols--wide-left">
-            <ul class="list list--sm">
-              <li class="fragment" style="--c: var(--accent);">
-                <span class="term">NLTK:</span>
-                Principais funcionalidades: tokenização, stemming, lematização e análise de sentimento.
-              </li>
-              <li class="fragment" style="--c: var(--positive);">
-                <span class="term">spaCy:</span>
-                Focado em produção. É rápido. Principais funcionalidades: Tokenização, Reconhecimento de Entidades
-                Nomeadas (pessoas, empresas, locais, datas).
-              </li>
-              <li class="fragment" style="--c: var(--violet);">
-                <span class="term">Hugging Face:</span>
-                "GitHub da IA". Hub de Modelos pré-treinados. Focado em Transformers, LLMs e Embeddings profundos.
-              </li>
-            </ul>
-
-            <div class="fragment">
-              <div class="stack" style="gap: 14px;">
-                <div class="mini" style="--c: var(--accent);">
-                  <h3>NLTK</h3>
-                  <p>Fundamentos e Ensino</p>
-                </div>
-                <div class="mini" style="--c: var(--positive);">
-                  <h3>spaCy</h3>
-                  <p>Desempenho e Produção</p>
-                </div>
-                <div class="mini" style="--c: var(--violet);">
-                  <h3>Hugging Face 🤗</h3>
-                  <p>Embeddings e LLMs</p>
-                </div>
+          <div class="body">
+            <div class="grid-3">
+              <div class="card tool fragment" style="--c: var(--accent);">
+                <h3>NLTK</h3>
+                <p class="tool__tag">Fundamentos e Ensino</p>
+                <p class="tool__desc">Plataforma/Biblioteca amplamente utilizada para construir programas em Python
+                  que trabalham com dados de linguagem humana.</p>
+                <p class="tool__feat">Tokenização, remoção de stop words, stemming, lematização e análise de
+                  sentimento.</p>
               </div>
-              <p class="caption">(O arsenal de todo desenvolvedor de PLN)</p>
+
+              <div class="card tool fragment" style="--c: var(--positive);">
+                <h3>spaCy</h3>
+                <p class="tool__tag">Desempenho e Produção</p>
+                <p class="tool__desc">Biblioteca de PLN rápida e eficiente, focada em produção, que oferece modelos
+                  pré-treinados para processar textos.</p>
+                <p class="tool__feat">Tokenização, lematização, classificação gramatical e Reconhecimento de Entidades
+                  Nomeadas (pessoas, empresas, locais, datas).</p>
+              </div>
+
+              <div class="card tool fragment" style="--c: var(--violet);">
+                <h3>Hugging Face 🤗</h3>
+                <p class="tool__tag">Embeddings e LLMs</p>
+                <p class="tool__desc">Conhecida como o "GitHub da IA", é uma plataforma que reúne milhares de modelos
+                  pré-treinados prontos para usar.</p>
+                <p class="tool__feat">Acesso a modelos Transformers e LLMs, embeddings profundos e análise de sentimento
+                  com contexto.</p>
+              </div>
             </div>
+            <p class="caption">(O arsenal de todo desenvolvedor de PLN)</p>
           </div>
         </div>
 
