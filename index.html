@@ -7,31 +7,1100 @@
   <link rel="icon" type="image/png" href="./imgs/icon_robo.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
 
   <style>
-    /* Destaque neon para dar um ar mais cyber/tech */
-    .highlight-text {
-      color: #00ffff;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
+    /* ============================================================
+       1. TOKENS — todas as cores, fontes e tamanhos num só lugar
+       ============================================================ */
+    :root {
+      /* Superfícies */
+      --bg: #070a12;
+      --surface: rgba(148, 163, 184, 0.06);
+      --surface-2: #0d1322;
+      --border: rgba(148, 163, 184, 0.16);
+
+      /* Texto */
+      --text: #e6edf6;
+      --muted: #a3b1c6;
+      --subtle: #7d8ba1;
+
+      /* Cor principal + acento */
+      --primary: #22d3ee;
+      --primary-soft: rgba(34, 211, 238, 0.10);
+      --primary-glow: rgba(34, 211, 238, 0.45);
+      --accent: #fbbf77;
+
+      /* Cores com significado / categorias */
+      --positive: #4ade80;
+      --negative: #f87171;
+      --violet: #a78bfa;
+      --pink: #f472b6;
+      --yellow: #fcd34d;
+      --slate: #94a3b8;
+
+      /* Fontes */
+      --font-head: "Space Grotesk", "Inter", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", "Consolas", monospace;
+
+      /* Escala tipográfica (espaço do slide: 1280x720), pensada para telão */
+      --fs-display: 80px;
+      --fs-title: 54px;
+      --fs-lead: 29px;
+      --fs-body: 31px;
+      --fs-small: 25px;
+      --fs-caption: 21px;
+      --fs-code: 22px;
+
+      /* Variáveis do tema do reveal.js */
+      --r-background-color: var(--bg);
+      --r-main-font: var(--font-body);
+      --r-main-font-size: var(--fs-body);
+      --r-main-color: var(--text);
+      --r-heading-font: var(--font-head);
+      --r-heading-color: var(--text);
+      --r-heading-text-transform: none;
+      --r-heading-letter-spacing: -0.02em;
+      --r-heading-font-weight: 600;
+      --r-code-font: var(--font-mono);
+      --r-link-color: var(--primary);
+      --r-link-color-hover: #67e8f9;
+      --r-selection-background-color: var(--primary);
     }
 
-    /* Aumentando a fonte geral para garantir ótima leitura de longe */
-    .reveal {
-      font-size: 38px;
+    /* Fundo global: gradiente suave + grade sutil */
+    body.reveal-viewport {
+      background:
+        radial-gradient(900px 520px at 92% -8%, rgba(34, 211, 238, 0.10), transparent 60%),
+        radial-gradient(760px 520px at -8% 108%, rgba(167, 139, 250, 0.08), transparent 60%),
+        linear-gradient(rgba(148, 163, 184, 0.035) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(90deg, rgba(148, 163, 184, 0.035) 1px, transparent 1px) 0 0 / 56px 56px,
+        var(--bg);
     }
 
-    /* Estilo padrão para as imagens tech */
-    .tech-image {
-      border-radius: 15px;
-      border: 2px solid #00ffff;
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-      background-color: white;
-      padding: 10px;
+    /* ============================================================
+       2. BASE
+       ============================================================ */
+    .reveal .slide {
+      box-sizing: border-box;
+      height: 720px;
+      padding: 52px 72px 48px;
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      position: relative;
+    }
+
+    .reveal .slide p,
+    .reveal .slide figure {
+      margin: 0;
+    }
+
+    .reveal h1,
+    .reveal h2,
+    .reveal h3 {
+      margin: 0;
+      text-shadow: none;
+      line-height: 1.1;
+    }
+
+    .reveal h2 {
+      font-size: var(--fs-title);
+    }
+
+    .reveal h3 {
+      font-size: 31px;
+    }
+
+    .reveal strong,
+    .reveal b {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .reveal img {
+      margin: 0;
+    }
+
+    /* Código inline (.lower(), re...) */
+    .reveal .slide :not(pre)>code {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.86em;
+      color: var(--accent);
+      background: rgba(251, 191, 119, 0.12);
+    }
+
+    .hl {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .pos {
+      color: var(--positive);
+    }
+
+    .neg {
+      color: var(--negative);
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    .note {
+      display: block;
+      margin-top: 4px;
+      font-size: 0.82em;
+      color: var(--subtle);
+    }
+
+    /* Cabeçalho padrão: título + subtítulo */
+    .head {
+      margin-bottom: 28px;
+    }
+
+    /* Título longo que precisa caber em uma linha */
+    .reveal .head--long h2 {
+      font-size: 51px;
+      letter-spacing: -0.025em;
+    }
+
+    .lead {
+      margin-top: 12px !important;
+      font-size: var(--fs-lead);
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    .caption {
+      margin-top: 14px !important;
+      font-size: var(--fs-caption);
+      color: var(--subtle);
+      text-align: center;
+    }
+
+    /* Layout em colunas */
+    .body {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .cols {
+      display: grid;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .cols--wide-left {
+      grid-template-columns: 1.3fr 1fr;
+    }
+
+    .cols--even {
+      grid-template-columns: 1.1fr 1fr;
+    }
+
+    .cols--half {
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .cols--code {
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Slide denso (Bag of Words): menos respiro para caber a tabela e a legenda */
+    .stack--tight {
+      gap: 14px;
+    }
+
+    .stack--tight .card {
+      padding: 20px 24px;
+    }
+
+    .stack--tight .demo {
+      padding: 18px 28px;
+    }
+
+    .stack--tight .caption {
+      margin-top: 8px !important;
+    }
+
+    .stack--tight table.bow td,
+    .stack--tight table.bow th {
+      padding: 7px 8px;
+    }
+
+    /* ============================================================
+       3. COMPONENTES
+       ============================================================ */
+
+    /* Lista com marcador em losango */
+    .reveal .list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-size: var(--fs-body);
+      line-height: 1.45;
+    }
+
+    .reveal .list--sm {
+      font-size: var(--fs-small);
+      gap: 18px;
+    }
+
+    .reveal .list li {
+      position: relative;
+      padding-left: 30px;
+    }
+
+    .reveal .list li::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 0.62em;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--c, var(--primary));
+      transform: rotate(45deg);
+    }
+
+    .term {
+      display: block;
+      font-family: var(--font-head);
+      font-weight: 600;
+      color: var(--c, var(--accent));
+      margin-bottom: 2px;
+    }
+
+    .term.mono {
+      font-family: var(--font-mono);
+      font-weight: 500;
+    }
+
+    /* Caixa de destaque (exemplo) */
+    .callout {
+      margin-top: 28px;
+      padding: 18px 22px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      background: linear-gradient(90deg, rgba(251, 191, 119, 0.10), transparent);
+      font-size: var(--fs-small);
+      line-height: 1.5;
+      color: var(--muted);
+    }
+
+    .callout .label {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* Painel claro para ilustrações com fundo branco */
+    .figure {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      border-radius: 24px;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #dde5f0);
+      box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    }
+
+    .figure img {
+      max-height: 400px;
+      mix-blend-mode: multiply;
+      /* some com o fundo branco da imagem */
+    }
+
+    /* Imagens que já têm fundo próprio */
+    .photo {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    /* Card genérico; a cor vem de --c */
+    .card {
+      --c: var(--primary);
+      position: relative;
+      overflow: hidden;
+      padding: 26px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: var(--c);
+    }
+
+    .card--side::before {
+      inset: 0 auto 0 0;
+      width: 3px;
+      height: auto;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      font-size: var(--fs-small);
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .reveal .card p+p {
+      margin-top: 14px;
+    }
+
+    .card .label {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--font-head);
+      font-weight: 600;
+      font-size: var(--fs-small);
+      color: var(--c);
+    }
+
+    /* Ícone ao lado do título do card */
+    .card__top {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .card__top h3 {
+      margin: 0;
+      color: var(--c);
+    }
+
+    .card__icon {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      color: var(--c);
+      background: color-mix(in srgb, var(--c) 14%, transparent);
+    }
+
+    .card__icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .card--plain-title .card__top h3 {
+      color: var(--text);
+    }
+
+    .card .list li::before {
+      background: var(--c);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+      align-content: start;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      align-content: start;
+    }
+
+    /* Citação/exemplo dentro de card */
+    .quote {
+      margin-top: 16px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px dashed var(--c);
+      background: color-mix(in srgb, var(--c) 8%, transparent);
+      font-size: var(--fs-small);
+      font-style: italic;
+      line-height: 1.45;
+      color: var(--text);
+    }
+
+    /* Linha do tempo */
+    .timeline {
+      position: relative;
+      padding-top: 48px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      left: 11px;
+      right: 11px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--slate), var(--violet), var(--primary));
+      opacity: 0.5;
+    }
+
+    .era__dot {
+      position: absolute;
+      top: -48px;
+      left: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 3px solid var(--c);
+      box-sizing: border-box;
+    }
+
+    .era:last-child .era__dot {
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .era {
+      overflow: visible;
+    }
+
+    .era.card::before {
+      display: none;
+    }
+
+    .era__when {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--font-mono);
+      font-size: 19px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c);
+    }
+
+    /* Painel de demonstração */
+    .demo {
+      padding: 30px;
+      border-radius: 20px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .demo+.demo {
+      margin-top: 18px;
+    }
+
+    .demo__label {
+      margin-bottom: 12px !important;
+      font-family: var(--font-mono);
+      font-size: 18px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c, var(--subtle));
+    }
+
+    .demo__sentence {
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .demo__arrow {
+      margin: 14px 0 !important;
+      font-family: var(--font-mono);
+      font-size: 26px;
+      color: var(--primary);
+    }
+
+    .strike {
+      color: var(--negative);
+      text-decoration: line-through;
+      text-decoration-thickness: 3px;
+    }
+
+    .tokens {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .token {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 24px;
+      color: #cffafe;
+      background: var(--primary-soft);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+    }
+
+    .token--green {
+      color: #dcfce7;
+      background: rgba(74, 222, 128, 0.10);
+      border-color: rgba(74, 222, 128, 0.45);
+    }
+
+    .fragment .tokens .token {
+      opacity: 0;
+    }
+
+    .fragment.visible .tokens .token {
+      animation: token-in 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+      animation-delay: calc(var(--i) * 90ms + 200ms);
+    }
+
+    @keyframes token-in {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .vector {
+      padding: 14px 18px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 22px;
+      color: var(--positive);
+      background: #04060b;
+      border: 1px solid var(--border);
+    }
+
+    /* Passo a passo (exemplos em texto) */
+    .steps {
+      padding: 24px 28px;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--primary);
+      font-size: 22px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .steps>*+* {
+      margin-top: 12px !important;
+    }
+
+    .steps .step__n {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .steps .result {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      color: #cffafe;
+    }
+
+    /* Tabela do Bag of Words */
+    .reveal table.bow {
+      width: 100%;
+      margin: 0;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 23px;
+      text-align: center;
+    }
+
+    .reveal table.bow th,
+    .reveal table.bow td {
+      padding: 10px 8px;
+      border: 0;
+      text-align: center;
+    }
+
+    .reveal table.bow th {
+      font-weight: 500;
+      color: var(--primary);
+      border-bottom: 1px solid rgba(34, 211, 238, 0.35);
+    }
+
+    .reveal table.bow tr+tr td {
+      border-top: 1px solid var(--border);
+    }
+
+    .reveal table.bow .f {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .reveal table.bow .hit {
+      font-weight: 600;
+      color: var(--positive);
+    }
+
+    /* Pesos do TF-IDF */
+    .weights {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 24px;
+    }
+
+    .weight {
+      flex: 0 0 36%;
+      padding: 16px 20px;
+      border-radius: 14px;
+      border: 1px dashed var(--c);
+      background: color-mix(in srgb, var(--c) 6%, transparent);
+      text-align: center;
+    }
+
+    .weight__word {
+      display: block;
+      font-size: 32px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .weight__tag {
+      display: block;
+      font-size: 22px;
+      color: var(--c);
+    }
+
+    .weight__val {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 26px;
+      color: var(--muted);
+    }
+
+    .weights__icon {
+      color: var(--primary);
+    }
+
+    .weights__icon svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* Mini cards empilhados (Kit de Ferramentas) */
+    .mini {
+      padding: 16px 22px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--c);
+    }
+
+    .mini h3 {
+      color: var(--c);
+      font-size: 29px;
+    }
+
+    .mini p {
+      margin-top: 4px !important;
+      font-size: 22px;
+      color: var(--muted);
+    }
+
+    /* Cards de sentimento */
+    .sentiment {
+      text-align: center;
+    }
+
+    .sentiment .card__icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 14px;
+      border-radius: 20px;
+    }
+
+    .sentiment .card__icon svg {
+      width: 40px;
+      height: 40px;
+    }
+
+    .sentiment h3 {
+      color: var(--c);
+    }
+
+    .sentiment p {
+      font-style: italic;
+    }
+
+    /* Janelas de código */
+    .window {
+      overflow: hidden;
+      border-radius: 14px;
+      background: #0a0f1c;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px -24px rgba(0, 0, 0, 0.75);
+    }
+
+    .window__bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .window__bar i {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ff5f57;
+    }
+
+    .window__bar i:nth-child(2) {
+      background: #febc2e;
+    }
+
+    .window__bar i:nth-child(3) {
+      background: #28c840;
+    }
+
+    .window__name {
+      margin-left: 10px;
+      font-family: var(--font-mono);
+      font-size: 17px;
+      color: var(--subtle);
+    }
+
+    .reveal .window pre {
+      width: 100%;
+      margin: 0;
+      box-shadow: none;
+      font-size: var(--fs-code);
+      line-height: 1.42;
+    }
+
+    .reveal .window pre code {
+      max-height: none;
+      padding: 16px 20px;
+      background: transparent;
+      font-family: var(--font-mono);
+    }
+
+    .reveal .window--sm pre {
+      font-size: 20px;
+    }
+
+    /* Nos slides de prática, os números de linha ficam ocultos para caber mais código */
+    .reveal .window--cell pre {
+      font-size: 19px;
+    }
+
+    .reveal .window--cell .hljs-ln-numbers {
+      display: none;
+    }
+
+    .reveal .window--cell .hljs-ln-code {
+      padding-left: 0 !important;
+    }
+
+    /* Saída do programa, dentro da mesma janela do código */
+    .output {
+      padding: 12px 20px 14px;
+      border-top: 1px solid rgba(74, 222, 128, 0.3);
+      background: #04060b;
+      font-family: var(--font-mono);
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--positive);
+    }
+
+    .output__cmd {
+      color: var(--subtle);
+    }
+
+    .output__row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .output .out {
+      color: var(--text);
+    }
+
+    .output .caption {
+      max-width: 380px;
+      margin: 0 !important;
+      font-family: var(--font-body);
+      text-align: right;
+    }
+
+    .slide>.window {
+      flex-shrink: 0;
+    }
+
+    /* Cores do código alinhadas à paleta */
+    .hljs {
+      color: #dbe4f0;
+    }
+
+    .hljs-keyword,
+    .hljs-meta {
+      color: #c4a7ff;
+    }
+
+    .hljs-string {
+      color: #a5e8b8;
+    }
+
+    .hljs-subst {
+      color: #dbe4f0;
+    }
+
+    .hljs-comment {
+      color: #6b7a92;
+      font-style: italic;
+    }
+
+    .hljs-built_in,
+    .hljs-title {
+      color: var(--primary);
+    }
+
+    .hljs-number,
+    .hljs-literal {
+      color: var(--accent);
+    }
+
+    .reveal .hljs-ln-numbers {
+      padding-right: 18px !important;
+      color: var(--subtle);
+      opacity: 0.6;
+      text-align: right;
+    }
+
+    /* ============================================================
+       4. SLIDES ESPECIAIS (capa, prática, encerramento)
+       ============================================================ */
+    .cover {
+      justify-content: center;
+    }
+
+    .cover__text {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+    }
+
+    .reveal .cover h1 {
+      font-size: var(--fs-display);
+      font-weight: 700;
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+
+    .reveal .glow {
+      color: var(--primary);
+      text-shadow: 0 0 32px var(--primary-glow);
+    }
+
+    .cover .lead {
+      margin-top: 24px !important;
+      font-size: 32px;
+    }
+
+    .cover__img {
+      position: absolute;
+      right: -80px;
+      top: 50%;
+      width: 900px;
+      transform: translateY(-50%);
+      -webkit-mask-image: radial-gradient(ellipse closest-side at 62% 50%, #000 55%, transparent 100%);
+      mask-image: radial-gradient(ellipse closest-side at 62% 50%, #000 55%, transparent 100%);
+    }
+
+    /* Slide "Vamos Praticar" */
+    .practice {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .practice__icon {
+      display: grid;
+      place-items: center;
+      width: 104px;
+      height: 104px;
+      margin-bottom: 36px;
+      border-radius: 28px;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+      box-shadow: 0 0 48px -8px var(--primary-glow);
+    }
+
+    .practice__icon svg {
+      width: 52px;
+      height: 52px;
+    }
+
+    .reveal .practice h1 {
+      font-size: 96px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .practice__line {
+      width: 520px;
+      height: 3px;
+      margin: 32px auto;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+
+    .practice .lead {
+      margin-top: 0 !important;
+      font-size: 34px;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    /* Agradecimento: título, robô e rodapé centralizados */
+    .thanks {
+      align-items: center;
+      text-align: center;
+      padding-top: 44px;
+    }
+
+    .reveal .thanks h1 {
+      font-size: 76px;
+      font-weight: 700;
+    }
+
+    .thanks .lead {
+      margin-top: 8px !important;
+    }
+
+    .thanks__robot {
+      display: grid;
+      place-items: center;
+      width: 360px;
+      height: 360px;
+      margin-top: 28px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: radial-gradient(circle at 40% 30%, #ffffff, #d6e0ec);
+      box-shadow: 0 0 0 8px var(--primary-soft), 0 0 60px -10px var(--primary-glow);
+    }
+
+    .thanks__robot img {
+      height: 320px;
+      margin-top: 30px;
+      mix-blend-mode: multiply;
+      /* some com o fundo branco da imagem */
+    }
+
+    .thanks__footer {
+      margin-top: auto !important;
+      font-size: var(--fs-caption);
+      color: var(--subtle);
+    }
+
+    /* Acesso aos códigos (QR code) */
+    .closing {
+      justify-content: center;
+    }
+
+    .reveal .access-title {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.08;
+    }
+
+    .access-link {
+      display: block;
+      margin-top: 20px;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 20px;
+      line-height: 1.5;
+      word-break: break-all;
+      background: var(--primary-soft);
+      border: 1px solid rgba(34, 211, 238, 0.35);
+    }
+
+    .qr-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+    }
+
+    .qr-card .qr {
+      padding: 14px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 0 0 6px var(--primary-soft), 0 0 40px -6px var(--primary-glow);
+    }
+
+    .qr-card .qr img {
+      display: block;
+      width: 320px;
+      height: 320px;
+    }
+
+    /* ============================================================
+       5. INTERFACE DO REVEAL (progresso, número do slide, setas)
+       ============================================================ */
+    .reveal .progress {
+      height: 3px;
+      color: var(--primary);
+    }
+
+    .reveal .slide-number {
+      background: transparent;
+      color: var(--subtle);
+      font-family: var(--font-mono);
+      font-size: 15px;
+    }
+
+    .reveal .controls {
+      color: var(--primary);
     }
   </style>
 </head>
@@ -40,38 +1109,41 @@
   <div class="reveal">
     <div class="slides">
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
-        <h2 style="color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.7);">Processamento de Linguagem Natural</h2>
-        <h4 style="color: #aaa;">Ensinando máquinas a entender humanos</h4>
-
-        <div style="margin-top: 40px;">
-          <img src="./imgs/1_v14QL566Drh5vriOnY9bxQ.jpg" alt="Robô pensando com equações ao fundo" class="tech-image"
-            style="max-width: 70%;">
+      <!-- ===================== CAPA ===================== -->
+      <section>
+        <div class="slide cover">
+          <img class="cover__img" src="./imgs/1_v14QL566Drh5vriOnY9bxQ.jpg" alt="Robô pensando com equações ao fundo">
+          <div class="cover__text">
+            <h1>Processamento de <span class="glow">Linguagem Natural</span></h1>
+            <p class="lead">Ensinando máquinas a entender humanos</p>
+          </div>
         </div>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== O QUE É PLN ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>O que é o PLN?</h2>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 40px; font-size: 1.3em;">O que é o PLN?</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 55%; text-align: left;">
-            <ul>
-              <li class="fragment">Interseção entre <strong>Computação, IA e Linguística</strong>.</li>
-              <li class="fragment">Faz a ponte entre a linguagem humana e a máquina.</li>
-              <li class="fragment" style="margin-top: 30px; font-size: 0.9em;">
-                <span class="highlight-text">Exemplo Prático:</span> <br>
+          <div class="body cols cols--wide-left">
+            <div>
+              <ul class="list">
+                <li class="fragment">Interseção entre <strong>Computação, IA e Linguística</strong>.</li>
+                <li class="fragment">Faz a ponte entre a linguagem humana e a máquina.</li>
+              </ul>
+              <div class="callout fragment">
+                <span class="label">Exemplo Prático:</span>
                 Quando um <strong>chatbot</strong> entende a sua intenção, busca a informação e responde como se fosse
                 um humano.
-              </li>
-            </ul>
-          </div>
+              </div>
+            </div>
 
-          <div style="width: 40%;">
-            <img src="./imgs/header-o-que-e-pln-inbot.png" alt="Ilustração de PLN com cientistas" class="tech-image">
+            <figure class="figure">
+              <img src="./imgs/header-o-que-e-pln-inbot.png" alt="Ilustração de PLN com cientistas">
+            </figure>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -84,49 +1156,41 @@
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== EVOLUÇÃO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>A Evolução do PLN</h2>
+            <p class="lead">Como os computadores aprenderam a ler ao longo das décadas?</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">A Evolução do PLN</h3>
-        <p style="font-size: 0.8em; color: #aaa; margin-bottom: 40px;">Como os computadores aprenderam a ler ao longo
-          das décadas?</p>
+          <div class="body timeline grid-3">
+            <div class="card era fragment" style="--c: var(--slate);">
+              <span class="era__dot"></span>
+              <span class="era__when">1. Anos 1950</span>
+              <h3>Sistemas de Regras</h3>
+              <p>Linguistas precisavam escrever <strong>manualmente</strong> as regras gramaticais do idioma. Eram
+                sistemas rígidos que travavam ao encontrar exceções e gírias.</p>
+            </div>
 
-        <div
-          style="display: flex; justify-content: space-between; align-items: stretch; text-align: left; font-size: 0.7em;">
+            <div class="card era fragment" style="--c: var(--violet);">
+              <span class="era__dot"></span>
+              <span class="era__when">2. Anos 1990</span>
+              <h3>A Era da Estatística</h3>
+              <p>O foco mudou para a matemática. Usando grandes volumes de texto, a máquina começou a calcular a
+                <strong>probabilidade</strong> de uma palavra aparecer perto da outra.
+              </p>
+            </div>
 
-          <div class="fragment"
-            style="width: 30%; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-top: 4px solid #ff79c6;">
-            <h4 style="color: #ff79c6; margin-bottom: 15px; font-size: 1.2em;">1. Anos 1950<br><span
-                style="font-size: 0.6em; color: #fff;">Sistemas de Regras</span></h4>
-            <p>Linguistas precisavam escrever <strong>manualmente</strong> as regras gramaticais do idioma. Eram
-              sistemas rígidos que travavam ao encontrar exceções e gírias.</p>
+            <div class="card era fragment" style="--c: var(--primary);">
+              <span class="era__dot"></span>
+              <span class="era__when">3. Atualidade</span>
+              <h3>Redes Neurais</h3>
+              <p>A revolução do <strong>Deep Learning</strong>. O computador agora usa redes complexas para entender o
+                <em>contexto</em> real e a intenção da frase inteira.
+              </p>
+            </div>
           </div>
-
-          <div class="fragment" style="display: flex; align-items: center; color: #00ffff; font-size: 1.5em;">
-            ➔
-          </div>
-
-          <div class="fragment"
-            style="width: 30%; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-top: 4px solid #8be9fd;">
-            <h4 style="color: #8be9fd; margin-bottom: 15px; font-size: 1.2em;">2. Anos 1990<br><span
-                style="font-size: 0.6em; color: #fff;">A Era da Estatística</span></h4>
-            <p>O foco mudou para a matemática. Usando grandes volumes de texto, a máquina começou a calcular a
-              <strong>probabilidade</strong> de uma palavra aparecer perto da outra.
-            </p>
-          </div>
-
-          <div class="fragment" style="display: flex; align-items: center; color: #00ffff; font-size: 1.5em;">
-            ➔
-          </div>
-
-          <div class="fragment"
-            style="width: 30%; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border-top: 4px solid #50fa7b;">
-            <h4 style="color: #50fa7b; margin-bottom: 15px; font-size: 1.2em;">3. Atualidade<br><span
-                style="font-size: 0.6em; color: #fff;">Redes Neurais</span></h4>
-            <p>A revolução do <strong>Deep Learning</strong>. O computador agora usa redes complexas para entender o
-              <em>contexto</em> real e a intenção da frase inteira.
-            </p>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -140,39 +1204,36 @@
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== DESAFIOS DA LINGUAGEM ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>Os Desafios da Linguagem</h2>
+            <p class="lead">Por que é tão difícil ensinar uma máquina a ler?</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">Os Desafios da Linguagem</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 55%; text-align: left; font-size: 0.8em;">
-            <p style="margin-bottom: 10px; color: #ccc;">Por que é tão difícil ensinar uma máquina a ler?</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text">Ambiguidade:</span><br>
-                A mesma palavra com múltiplos significados. <br>
-                <span style="font-size: 0.8em; color: #aaa;">(Ex: Sentar no <em>banco</em> vs. Pagar no
-                  <em>banco</em>).</span>
+          <div class="body cols cols--wide-left">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">Ambiguidade:</span>
+                A mesma palavra com múltiplos significados.
+                <span class="note">(Ex: Sentar no <em>banco</em> vs. Pagar no <em>banco</em>).</span>
               </li>
-
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text">Sarcasmo e Ironia:</span><br>
+              <li class="fragment">
+                <span class="term">Sarcasmo e Ironia:</span>
                 O sentido real é o oposto do sentido literal. A máquina não tem "tom de voz" para perceber.
               </li>
-
               <li class="fragment">
-                <span class="highlight-text">Contexto de Mundo:</span><br>
+                <span class="term">Contexto de Mundo:</span>
                 Exige vivência, cultura e situação social, algo que o algoritmo não possui.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 40%;">
-            <img src="./imgs/desafios.jpg" alt="Robô confuso com a linguagem humana" class="tech-image">
-            <p style="font-size: 0.4em; color: #888; margin-top: 10px;">(Ilustração: A barreira da comunicação)</p>
+            <figure>
+              <img class="photo" src="./imgs/desafios.jpg" alt="Robô confuso com a linguagem humana">
+              <p class="caption">(Ilustração: A barreira da comunicação)</p>
+            </figure>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -185,37 +1246,33 @@
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== O QUE É PRÉ-PROCESSAMENTO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>O que é Pré-processamento?</h2>
+            <p class="lead">Para o computador, um texto bruto é apenas uma sopa de letras sem sentido.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">O que é Pré-processamento?</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 55%; text-align: left; font-size: 0.8em;">
-            <p style="margin-bottom: 15px; color: #ccc;">
-              Para o computador, um texto bruto é apenas uma sopa de letras sem sentido.
-            </p>
-
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text">O Conceito:</span><br>
+          <div class="body cols cols--wide-left">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">O Conceito:</span>
                 É a etapa de limpeza e organização. Transformamos dados não estruturados (textos livres) em dados
                 estruturados.
               </li>
-
               <li class="fragment">
-                <span class="highlight-text">A Regra de Ouro:</span><br>
-                <em style="color: #ff5555;">"Garbage In, Garbage Out"</em> (Lixo entra, lixo sai).<br>
+                <span class="term">A Regra de Ouro:</span>
+                <em class="neg">"Garbage In, Garbage Out"</em> (Lixo entra, lixo sai).<br>
                 Se a entrada for ruim, o modelo de IA vai falhar.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 40%;">
-            <img src="./imgs/pre_processamento.png" alt="Ícone de pasta sendo limpa por uma vassoura"
-              class="tech-image">
+            <figure class="figure">
+              <img src="./imgs/pre_processamento.png" alt="Ícone de pasta sendo limpa por uma vassoura"
+                style="max-height: 320px;">
+            </figure>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -228,37 +1285,35 @@
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 50px;">
+      <!-- ===================== 1. LIMPEZA E NORMALIZAÇÃO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>1. Limpeza e Normalização</h2>
+            <p class="lead">A primeira "faxina" no texto bruto:</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">1. Limpeza e Normalização</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 60%; text-align: left; font-size: 0.75em; line-height: 1.2;">
-            <p style="margin-bottom: 15px; color: #ccc;">A primeira "faxina" no texto bruto:</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span class="highlight-text">Lowercasing (Minúsculas):</span><br>
+          <div class="body cols cols--even">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">Lowercasing (Minúsculas):</span>
                 Transformar tudo em letras minúsculas. Para a máquina, "Gato" e "gato" são tokens diferentes sem essa
                 etapa.
               </li>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span class="highlight-text">Remoção de Ruído:</span><br>
+              <li class="fragment">
+                <span class="term">Remoção de Ruído:</span>
                 Tirar pontuações (! ? , .), caracteres especiais (@ # $) e URLs que não agregam valor ao sentido.
               </li>
               <li class="fragment">
-                <span class="highlight-text">Remoção de Números:</span><br>
+                <span class="term">Remoção de Números:</span>
                 Em muitas análises, como a de sentimento, os números são irrelevantes e podem ser descartados.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 40%; display: flex; justify-content: flex-end; margin-right: -5%;">
-            <img src="./imgs/1730464526751.png" alt="Notebook sendo limpo" class="tech-image"
-              style="max-width: 100%; height: auto;">
+            <figure>
+              <img class="photo" src="./imgs/1730464526751.png" alt="Notebook sendo limpo">
+            </figure>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -268,32 +1323,80 @@
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 60px;">
+      <!-- ===================== 1.1 LIMPEZA PASSO A PASSO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>1.1 Limpeza passo a passo</h2>
+            <p class="lead">A base de tudo é a manipulação de strings. Veja como transformar o texto bruto:</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">Limpeza na Prática (Python)</h3>
+          <div class="body cols cols--code">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term mono">.lower()</span>
+                Padroniza para letras minúsculas (o computador vê 'A' e 'a' de forma diferente).
+              </li>
+              <li class="fragment">
+                <span class="term mono">.strip()</span>
+                Remove espaços em branco inúteis no começo e no fim da frase.
+              </li>
+              <li class="fragment">
+                <span class="term mono">Regex (re.sub)</span>
+                A "varinha mágica" para apagar pontuações, emojis e números de uma vez.
+              </li>
+            </ul>
 
-        <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+            <div class="steps fragment">
+              <p><strong class="hl">Exemplo:</strong> Imagine um texto vindo de uma rede social:
+                <span class="result">"Olá!!! Vamos APRENDER p.l.n. hoje??? 🤖🔥 123"</span>
+              </p>
+              <p><span class="step__n">Passo 1:</span> Importamos a biblioteca <code>re</code> (expressões regulares).
+              </p>
+              <p><span class="step__n">Passo 2:</span> Convertemos para minúsculas com <code>.lower()</code>, removemos
+                espaços extras com <code>.strip()</code>.
+                <span class="result">Resultado: "olá!!! vamos aprender p.l.n. hoje??? 🤖🔥 123"</span>
+              </p>
+              <p><span class="step__n">Passo 3:</span> Removemos pontuações, emojis e números com <span
+                  class="hl">Regex</span>.
+                <span class="result">Resultado: "olá vamos aprender pln hoje"</span>
+              </p>
+            </div>
+          </div>
+        </div>
 
-          <div style="width: 48%; text-align: left; font-size: 0.75em;">
-            <p style="margin-bottom: 15px; color: #ccc;">
-              Como transformamos a teoria em algoritmo:
-            </p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text">Padronização:</span><br>
+        <aside class="notes">
+          Vamos ver a limpeza passo a passo. Antes de jogar o texto para um algoritmo complexo, a base é essa:
+          manipulação de string no bom e velho Python. Recebemos um texto cheio de ruídos — maiúsculas, emojis,
+          pontuação, números. Com funções nativas e a biblioteca de Expressões Regulares, nós 'trituramos' essa sujeira
+          e deixamos apenas o texto limpo, pronto para a tokenização e vetorização.
+        </aside>
+      </section>
+
+      <!-- ===================== 1.2 COMO A LIMPEZA FUNCIONA NO CÓDIGO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>1.2 Como a limpeza funciona no código</h2>
+            <p class="lead">Como transformamos a teoria em algoritmo:</p>
+          </header>
+
+          <div class="body cols cols--code">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">Padronização:</span>
                 O método <code>.lower()</code> remove a barreira entre "Gato" e "gato", unificando o vocabulário.
               </li>
               <li class="fragment">
-                <span class="highlight-text">Regex (Expressões Regulares):</span><br>
-                A biblioteca <code style="color: red;">re</code> permite identificar, validar e manipular padrões
-                textuais complexos através de regras de correspondência.
+                <span class="term">Regex (Expressões Regulares):</span>
+                A biblioteca <code>re</code> permite identificar, validar e manipular padrões textuais complexos através
+                de regras de correspondência.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 56%; margin-bottom: 30px;" class="fragment">
-            <pre style="width: 100%; margin: 0; overflow: hidden;"><code class="python" data-trim data-noescape style="font-size: 0.95em; line-height: 1.3; border: 1px solid #00ffff; border-radius: 10px; padding: 20px; box-shadow: 0 0 30px rgba(0,255,255,0.2); overflow: hidden;">
+            <div class="window window--sm fragment">
+              <div class="window__bar"><i></i><i></i><i></i></div>
+              <pre><code class="language-python" data-trim data-noescape>
 import re
 
 texto_bruto = "Olá, Mundo!!! 🌍 link.com"
@@ -307,9 +1410,9 @@ texto_limpo = re.sub(r'[^\w\s]', '', texto)
 
 print(texto_limpo)
 # Saída: ola mundo  linkcom
-  </code></pre>
+              </code></pre>
+            </div>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -318,114 +1421,42 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 2. TOKENIZAÇÃO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>2. Tokenização</h2>
+            <p class="lead">A linguagem é um fluxo contínuo. Precisamos quebrá-la em "pedaços":</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 10px;"> Limpeza na Prática (Python)</h3>
-
-        <div style="display: flex; align-items: flex-start; justify-content: space-between;">
-
-          <div style="width: 36%; text-align: left; font-size: 0.62em; line-height: 1.2;">
-            <p style="margin-bottom: 10px; color: #ccc;">A base de tudo é a manipulação de strings. Veja como
-              transformar o texto bruto:</p>
-            <ul style="margin: 0; padding-left: 20px;">
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span style="color: #ffb86c; font-weight: bold;">.lower()</span><br>
-                Padroniza para letras minúsculas (o computador vê 'A' e 'a' de forma diferente).
-              </li>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span style="color: #ffb86c; font-weight: bold;">.strip()</span><br>
-                Remove espaços em branco inúteis no começo e no fim da frase.
-              </li>
+          <div class="body cols cols--even">
+            <ul class="list list--sm">
               <li class="fragment">
-                <span style="color: #ffb86c; font-weight: bold;">Regex (re.sub)</span><br>
-                A "varinha mágica" para apagar pontuações, emojis e números de uma vez.
-              </li>
-            </ul>
-          </div>
-
-          <div style="width: 62%;" class="fragment">
-            <div
-              style="background-color: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 4px solid #00ffff; text-align: left; padding: 15px; font-size: 0.7em; line-height: 1.6; color: #ccc;">
-              <p style="margin: 0 0 15px 0;">
-                <strong style="color: #00ffff;">Exemplo:</strong> Imagine um texto vindo de uma rede social:<br>
-                <span style="color: #8be9fd; font-style: italic;">"Olá!!! Vamos APRENDER p.l.n. hoje??? 🤖🔥 123"</span>
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 1:</strong> Importamos a biblioteca <span
-                  style="color: #00ffff; font-weight: bold;">re</span> (expressões regulares).
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 2:</strong> Convertemos para minúsculas com <span
-                  style="color: #00ffff; font-weight: bold;">.lower()</span>, removemos espaços extras com <span
-                  style="color: #00ffff; font-weight: bold;">.strip()</span>.<br>
-                Resultado: <span style="color: #8be9fd;">"olá!!! vamos aprender p.l.n. hoje??? 🤖🔥 123"</span>
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 3:</strong> Removemos pontuações, emojis e números com <span
-                  style="color: #00ffff; font-weight: bold;">Regex</span>.<br>
-                Resultado: <span style="color: #8be9fd;">"olá vamos aprender pln hoje"</span>
-              </p>
-
-            </div>
-          </div>
-
-        </div>
-
-        <aside class="notes">
-          Aqui entramos na prática. Antes de jogar o texto para um algoritmo complexo, a base é essa: manipulação de
-          string no bom e velho Python. Recebemos um texto cheio de ruídos — maiúsculas, emojis, pontuação, números. Com
-          funções nativas e a biblioteca de Expressões Regulares, nós 'trituramos' essa sujeira e deixamos apenas o
-          texto limpo, pronto para a tokenização e vetorização.
-        </aside>
-      </section>
-
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
-
-        <h3 style="color: #00ffff; margin-bottom: 30px;">2. Tokenização</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 50%; text-align: left; font-size: 0.8em; line-height: 1.3;">
-            <p style="margin-bottom: 20px; color: #ccc;">
-              A linguagem é um fluxo contínuo. Precisamos quebrá-la em "pedaços":
-            </p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text">O que é:</span><br>
+                <span class="term">O que é:</span>
                 Dividir um texto em unidades menores (palavras, pontuações, números), chamadas <strong>Tokens</strong>.
               </li>
               <li class="fragment">
-                <span class="highlight-text">Por que fazer?</span><br>
+                <span class="term">Por que fazer?</span>
                 Algoritmos processam dados discretos. Cada token se torna uma "peça" para análise individual.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 45%; text-align: center;" class="fragment">
-            <div
-              style="background-color: #282a36; padding: 20px; border-radius: 10px; border: 2px solid #66b3ff; box-shadow: 0 0 15px rgba(102,179,255,0.3);">
-              <p style="color: #fff; font-size: 1.2em; margin-bottom: 20px; font-weight: bold;">"Esta é uma frase de
-                exemplo."</p>
-              <p style="color: #00ffff; font-size: 1.8em; margin: 10px 0;">⬇</p>
-              <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px;">
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">Esta</span>
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">é</span>
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">uma</span>
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">frase</span>
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">de</span>
-                <span
-                  style="background-color: #444; color: #fff; padding: 5px 10px; border-radius: 5px; border: 1px solid #66b3ff;">exemplo</span>
+            <div class="fragment">
+              <div class="demo">
+                <p class="demo__sentence">"Esta é uma frase de exemplo."</p>
+                <p class="demo__arrow">↓</p>
+                <div class="tokens">
+                  <span class="token" style="--i:0">Esta</span>
+                  <span class="token" style="--i:1">é</span>
+                  <span class="token" style="--i:2">uma</span>
+                  <span class="token" style="--i:3">frase</span>
+                  <span class="token" style="--i:4">de</span>
+                  <span class="token" style="--i:5">exemplo</span>
+                </div>
               </div>
+              <p class="caption">(Transformando frases em tokens)</p>
             </div>
-            <p style="font-size: 0.4em; color: #888; margin-top: 15px;">(Transformando frases em tokens)</p>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -439,56 +1470,43 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 60px;">
+      <!-- ===================== 3. STOP WORDS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>3. Stop Words</h2>
+            <p class="lead">Nem toda palavra importa para a máquina.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">3. Stop Words</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 50%; text-align: left; font-size: 0.75em; line-height: 1.2;">
-            <p style="margin-bottom: 15px; color: #ccc;">Nem toda palavra importa para a máquina.</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span class="highlight-text">O que são:</span><br>
+          <div class="body cols cols--even">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">O que são:</span>
                 Palavras muito frequentes que servem apenas para conectar a frase (artigos, preposições, conjunções).
-                <br>
-                <span style="font-size: 0.8em; color: #aaa;">Ex: "o", "a", "de", "que", "para".</span>
+                <span class="note">Ex: "o", "a", "de", "que", "para".</span>
               </li>
               <li class="fragment">
-                <span class="highlight-text">Por que remover?</span><br>
+                <span class="term">Por que remover?</span>
                 Elas geram "ruído" e ocupam muito espaço. Removendo-as, o algoritmo foca apenas no núcleo do significado
                 (substantivos, verbos, adjetivos).
               </li>
             </ul>
-          </div>
 
-          <div style="width: 45%; text-align: center;" class="fragment">
-            <div
-              style="background-color: #282a36; padding: 20px; border-radius: 10px; border: 2px solid #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.3);">
-              <p style="color: #fff; font-size: 1.1em; margin-bottom: 15px; font-style: italic;">
-                "<span style="color: #ff5555; text-decoration: line-through;">O</span>
-                gato dormiu
-                <span style="color: #ff5555; text-decoration: line-through;">no</span>
-                sofá
-                <span style="color: #ff5555; text-decoration: line-through;">da</span>
-                sala"
-              </p>
-              <p style="color: #00ffff; font-size: 1.5em; margin: 10px 0;">⬇</p>
-              <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
-                <span
-                  style="background-color: #444; color: #50fa7b; padding: 8px 15px; border-radius: 5px; font-weight: bold; border: 1px solid #50fa7b;">gato</span>
-                <span
-                  style="background-color: #444; color: #50fa7b; padding: 8px 15px; border-radius: 5px; font-weight: bold; border: 1px solid #50fa7b;">dormiu</span>
-                <span
-                  style="background-color: #444; color: #50fa7b; padding: 8px 15px; border-radius: 5px; font-weight: bold; border: 1px solid #50fa7b;">sofá</span>
-                <span
-                  style="background-color: #444; color: #50fa7b; padding: 8px 15px; border-radius: 5px; font-weight: bold; border: 1px solid #50fa7b;">sala</span>
+            <div class="fragment">
+              <div class="demo">
+                <p class="demo__sentence"><em>"<span class="strike">O</span> gato dormiu <span class="strike">no</span>
+                    sofá <span class="strike">da</span> sala"</em></p>
+                <p class="demo__arrow">↓</p>
+                <div class="tokens">
+                  <span class="token token--green" style="--i:0">gato</span>
+                  <span class="token token--green" style="--i:1">dormiu</span>
+                  <span class="token token--green" style="--i:2">sofá</span>
+                  <span class="token token--green" style="--i:3">sala</span>
+                </div>
               </div>
+              <p class="caption">(Filtrando o ruído, retendo o significado)</p>
             </div>
-            <p style="font-size: 0.4em; color: #888; margin-top: 15px;">(Filtrando o ruído, retendo o significado)</p>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -500,57 +1518,40 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 60px;">
+      <!-- ===================== 4. REDUÇÃO AO RADICAL ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>4. Redução ao Radical</h2>
+            <p class="lead">Unificando palavras parecidas (ex: correr, correndo, correu):</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">4. Redução ao Radical</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 50%; text-align: left; font-size: 0.75em; line-height: 1.2;">
-            <p style="margin-bottom: 15px; color: #ccc;">Unificando palavras parecidas (ex: correr, correndo, correu):
-            </p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span class="highlight-text" style="color: #00ffff; font-weight: bold;">Stemming (Força
-                  Bruta):</span><br>
+          <div class="body cols cols--even">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">Stemming (Força Bruta):</span>
                 Corta os sufixos e prefixos da palavra usando regras simples. É computacionalmente muito
                 <strong>rápido</strong>, mas pode gerar radicais que não são palavras reais.
               </li>
               <li class="fragment">
-                <span class="highlight-text" style="color: #00ffff; font-weight: bold;">Lematização
-                  (Inteligente):</span><br>
+                <span class="term">Lematização (Inteligente):</span>
                 Usa análise morfológica e dicionários para encontrar a raiz real da palavra (o lema). É mais
                 <strong>lento e pesado</strong>, mas garante que o resultado tenha significado.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 45%; text-align: center;" class="fragment">
-
-            <div
-              style="background-color: #282a36; padding: 15px; border-radius: 10px; border: 2px solid #66b3ff; margin-bottom: 15px; box-shadow: 0 0 10px rgba(102,179,255,0.2);">
-              <h4 style="color: #66b3ff; margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase;">Exemplo de
-                Stemming</h4>
-              <p style="color: #fff; font-size: 1.1em; margin: 0;">
-                "Cachorros" ➔ <span
-                  style="background-color: #444; color: #66b3ff; padding: 4px 10px; border-radius: 5px; font-weight: bold;">Cachorr</span>
-              </p>
+            <div class="fragment">
+              <div class="demo" style="--c: var(--primary);">
+                <p class="demo__label">Exemplo de Stemming</p>
+                <p class="demo__sentence">"Cachorros" <span class="hl">➔</span> <span class="token">Cachorr</span></p>
+              </div>
+              <div class="demo" style="--c: var(--primary);">
+                <p class="demo__label">Exemplo de Lematização</p>
+                <p class="demo__sentence">"Melhores" <span class="hl">➔</span> <span class="token">Bom</span></p>
+              </div>
+              <p class="caption">(Velocidade vs. Precisão Semântica)</p>
             </div>
-
-            <div
-              style="background-color: #282a36; padding: 15px; border-radius: 10px; border: 2px solid #66b3ff; box-shadow: 0 0 10px rgba(102,179,255,0.2);">
-              <h4 style="color: #66b3ff; margin-bottom: 10px; font-size: 0.9em; text-transform: uppercase;">Exemplo de
-                Lematização</h4>
-              <p style="color: #fff; font-size: 1.1em; margin: 0;">
-                "Melhores" ➔ <span
-                  style="background-color: #444; color: #66b3ff; padding: 4px 10px; border-radius: 5px; font-weight: bold;">Bom</span>
-              </p>
-            </div>
-
-            <p style="font-size: 0.4em; color: #888; margin-top: 15px;">(Velocidade vs. Precisão Semântica)</p>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -563,51 +1564,39 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 60px;">
+      <!-- ===================== 5. VETORIZAÇÃO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>5. Vetorização (Texto para Números)</h2>
+            <p class="lead">A máquina só entende matemática. Precisamos converter o texto limpo em matrizes e vetores.
+            </p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 15px;">5. Vetorização (Texto para Números)</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 50%; text-align: left; font-size: 0.72em; line-height: 1.2;">
-            <p style="margin-bottom: 15px; color: #ccc;">A máquina só entende matemática. Precisamos converter o texto
-              limpo em matrizes e vetores.</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span class="highlight-text" style="color: #66b3ff; font-weight: bold;">Técnicas Clássicas:</span><br>
+          <div class="body cols cols--even">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term">Técnicas Clássicas:</span>
                 <strong>Bag of Words / TF-IDF:</strong> Contam a frequência das palavras. Simples, mas não capturam bem
                 o contexto ou a semântica.
               </li>
               <li class="fragment">
-                <span class="highlight-text" style="color: #66b3ff; font-weight: bold;">Word Embeddings
-                  (Moderno):</span><br>
+                <span class="term">Word Embeddings (Moderno):</span>
                 Transforma cada palavra em um vetor denso (uma lista de centenas de números decimais). É a base de
                 arquiteturas avançadas, permitindo buscas por significado.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 45%; text-align: center;" class="fragment">
-            <div
-              style="background-color: #282a36; padding: 15px; border-radius: 10px; border: 2px solid #66b3ff; box-shadow: 0 0 15px rgba(102,179,255,0.2);">
-
-              <h4 style="color: #ccc; margin-bottom: 10px; font-size: 0.9em;">Representação Vetorial</h4>
-
-              <p style="color: #fff; font-size: 1.2em; margin-bottom: 5px; font-weight: bold;">
-                "Inteligência"
-              </p>
-              <p style="color: #00ffff; font-size: 1.3em; margin: 5px 0;">⬇</p>
-
-              <div
-                style="background-color: #1e1e2e; color: #50fa7b; padding: 10px; border-radius: 5px; font-family: monospace; font-size: 0.85em; word-wrap: break-word; border: 1px solid #444;">
-                [ 0.231, -0.842, 0.091, 0.774, -0.112, ... ]
+            <div class="fragment">
+              <div class="demo">
+                <p class="demo__label">Representação Vetorial</p>
+                <p class="demo__sentence">"inteligência"</p>
+                <p class="demo__arrow">↓</p>
+                <div class="vector">[ -0.191, -1.578, -1.203, -0.785, -1.386, ... ]</div>
               </div>
+              <p class="caption">(Vetor real do modelo pt_core_news_md do spaCy: 300 números)</p>
             </div>
-            <p style="font-size: 0.4em; color: #888; margin-top: 10px;">(Palavras convertidas para o espaço matemático)
-            </p>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -620,77 +1609,72 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 6. BAG OF WORDS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>6. Bag of Words (BoW)</h2>
+            <p class="lead">A forma mais clássica de vetorização.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 10px;">6. Bag of Words (BoW)</h3>
-
-        <div style="text-align: left; font-size: 0.65em; line-height: 1.2; margin-bottom: 15px;">
-          <p style="margin-bottom: 10px; color: #ccc; text-align: center;">A forma mais clássica de vetorização.</p>
-
-          <div style="display: flex; justify-content: space-around; gap: 20px;">
-            <div class="fragment"
-              style="width: 48%; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-              <span style="color: #66b3ff; font-weight: bold;">O Conceito:</span><br>
-              Imagine jogar todas as palavras de um texto dentro de um "saco". A ordem e a gramática são completamente
-              perdidas.
+          <div class="body stack stack--tight">
+            <div class="grid-2">
+              <div class="card card--side fragment">
+                <span class="label">O Conceito:</span>
+                <p>Imagine jogar todas as palavras de um texto dentro de um "saco". A ordem e a gramática são
+                  completamente perdidas.</p>
+              </div>
+              <div class="card card--side fragment">
+                <span class="label">Como funciona:</span>
+                <p>Criamos um vocabulário com todas as palavras conhecidas e contamos quantas vezes cada uma aparece. O
+                  resultado é um vetor de frequências.</p>
+              </div>
             </div>
-            <div class="fragment"
-              style="width: 48%; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px;">
-              <span style="color: #66b3ff; font-weight: bold;">Como funciona:</span><br>
-              Criamos um vocabulário com todas as palavras conhecidas e contamos quantas vezes cada uma aparece. O
-              resultado é um vetor de frequências.
+
+            <div class="fragment">
+              <div class="demo">
+                <p class="demo__label" style="text-transform: none; letter-spacing: 0; font-size: 21px;">
+                  F1: "o rato roeu a roupa" &nbsp;&nbsp;|&nbsp;&nbsp; F2: "o rato comeu o queijo"</p>
+                <table class="bow">
+                  <thead>
+                    <tr>
+                      <th>Frase</th>
+                      <th>o</th>
+                      <th>rato</th>
+                      <th>roeu</th>
+                      <th>a</th>
+                      <th>roupa</th>
+                      <th>comeu</th>
+                      <th>queijo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="f">F1</td>
+                      <td>1</td>
+                      <td>1</td>
+                      <td class="hit">1</td>
+                      <td class="hit">1</td>
+                      <td class="hit">1</td>
+                      <td>0</td>
+                      <td>0</td>
+                    </tr>
+                    <tr>
+                      <td class="f">F2</td>
+                      <td>2</td>
+                      <td>1</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td>0</td>
+                      <td class="hit">1</td>
+                      <td class="hit">1</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="caption">(Matriz de contagem: cada frase vira um vetor numérico)</p>
             </div>
           </div>
-        </div>
-
-        <div style="width: 95%; margin: 0 auto; text-align: center;" class="fragment">
-          <div
-            style="background-color: #282a36; padding: 10px 15px; border-radius: 10px; border: 2px solid #66b3ff; box-shadow: 0 0 10px rgba(102,179,255,0.2);">
-            <p style="color: #aaa; font-size: 0.8em; margin-bottom: 10px; font-style: italic;">
-              F1: "o rato roeu a roupa" &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; F2: "o rato comeu o queijo"
-            </p>
-
-            <table
-              style="width: 100%; color: #fff; font-size: 0.75em; border-collapse: collapse; text-align: center; margin-top: 5px;">
-              <thead>
-                <tr style="border-bottom: 1px solid #66b3ff; color: #00ffff;">
-                  <th style="padding: 8px;">Frase</th>
-                  <th style="padding: 8px;">o</th>
-                  <th style="padding: 8px;">rato</th>
-                  <th style="padding: 8px;">roeu</th>
-                  <th style="padding: 8px;">a</th>
-                  <th style="padding: 8px;">roupa</th>
-                  <th style="padding: 8px;">comeu</th>
-                  <th style="padding: 8px;">queijo</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="color: #ffb86c; padding: 10px 8px; font-weight: bold;">F1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td style="color: #50fa7b;">1</td>
-                  <td style="color: #50fa7b;">1</td>
-                  <td style="color: #50fa7b;">1</td>
-                  <td>0</td>
-                  <td>0</td>
-                </tr>
-                <tr>
-                  <td style="color: #ffb86c; padding: 10px 8px; font-weight: bold;">F2</td>
-                  <td>2</td>
-                  <td>1</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td>0</td>
-                  <td style="color: #50fa7b;">1</td>
-                  <td style="color: #50fa7b;">1</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p style="font-size: 0.4em; color: #888; margin-top: 10px;">(Matriz de contagem: cada frase vira um vetor
-            numérico)</p>
         </div>
 
         <aside class="notes">
@@ -701,55 +1685,44 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 50px;">
+      <!-- ===================== 7. TF-IDF ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>7. TF-IDF</h2>
+            <p class="lead"><em>Term Frequency — Inverse Document Frequency</em></p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 5px;">7. TF-IDF</h3>
-        <p style="color: #ccc; font-size: 0.65em; margin-bottom: 20px; font-style: italic;">Term Frequency — Inverse
-          Document Frequency</p>
-
-        <div style="display: flex; gap: 20px; font-size: 0.7em; line-height: 1.3; margin-bottom: 25px;">
-
-          <div class="fragment"
-            style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border-top: 3px solid #50fa7b; text-align: left;">
-            <span style="color: #50fa7b; font-weight: bold; font-size: 1.1em;">TF (Frequência do Termo)</span><br><br>
-            Mede a frequência com que uma palavra aparece em um documento específico.<br>
-            <span style="color: #aaa; font-style: italic; font-size: 0.9em;">"Se repete muito aqui, deve ser
-              importante."</span>
-          </div>
-
-          <div class="fragment"
-            style="flex: 1; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border-top: 3px solid #ff5555; text-align: left;">
-            <span style="color: #ff5555; font-weight: bold; font-size: 1.1em;">IDF (Frequência Inversa)</span><br><br>
-            Diminui o peso de palavras que aparecem em quase todos os documentos.<br>
-            <span style="color: #aaa; font-style: italic; font-size: 0.9em;">"Se aparece em todo lugar, não
-              diferencia."</span>
-          </div>
-
-        </div>
-
-        <div class="fragment"
-          style="width: 100%; box-sizing: border-box; text-align: center; background-color: #282a36; padding: 15px; border-radius: 10px; border: 2px solid #66b3ff; box-shadow: 0 0 10px rgba(102,179,255,0.2);">
-          <p style="color: #aaa; font-size: 0.75em; margin: 0 0 15px 0;">O Efeito Matemático (Exemplo):</p>
-
-          <div style="display: flex; justify-content: space-evenly; align-items: center; font-size: 0.8em;">
-
-            <div
-              style="text-align: center; padding: 10px 20px; border: 1px dashed #ff5555; border-radius: 8px; width: 35%;">
-              <span style="color: #fff; font-weight: bold; font-size: 1.3em;">"o"</span><br>
-              <span style="color: #ff5555; font-size: 0.9em;">Penalizada (comum)</span><br>
-              <span style="color: #ccc; font-family: monospace; font-size: 1.2em;">0.0001</span>
+          <div class="body stack">
+            <div class="grid-2">
+              <div class="card fragment" style="--c: var(--positive);">
+                <span class="label">TF (Frequência do Termo)</span>
+                <p>Mede a frequência com que uma palavra aparece em um documento específico.</p>
+                <p><em>"Se repete muito aqui, deve ser importante."</em></p>
+              </div>
+              <div class="card fragment" style="--c: var(--negative);">
+                <span class="label">IDF (Frequência Inversa)</span>
+                <p>Diminui o peso de palavras que aparecem em quase todos os documentos.</p>
+                <p><em>"Se aparece em todo lugar, não diferencia."</em></p>
+              </div>
             </div>
 
-            <div style="color: #00ffff; font-size: 1.8em;">⚖️</div>
-
-            <div
-              style="text-align: center; padding: 10px 20px; border: 1px dashed #50fa7b; border-radius: 8px; width: 35%;">
-              <span style="color: #fff; font-weight: bold; font-size: 1.3em;">"queijo"</span><br>
-              <span style="color: #50fa7b; font-size: 0.9em;">Premiada (específica)</span><br>
-              <span style="color: #ccc; font-family: monospace; font-size: 1.2em;">0.8741</span>
+            <div class="demo fragment">
+              <p class="demo__label">O Efeito Matemático (Exemplo):</p>
+              <div class="weights">
+                <div class="weight" style="--c: var(--negative);">
+                  <span class="weight__word">"o"</span>
+                  <span class="weight__tag">Penalizada (comum)</span>
+                  <span class="weight__val">0.0001</span>
+                </div>
+                <div class="weights__icon"><i data-lucide="scale"></i></div>
+                <div class="weight" style="--c: var(--positive);">
+                  <span class="weight__word">"queijo"</span>
+                  <span class="weight__tag">Premiada (específica)</span>
+                  <span class="weight__val">0.8741</span>
+                </div>
+              </div>
             </div>
-
           </div>
         </div>
 
@@ -761,58 +1734,49 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 8. KIT DE FERRAMENTAS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>8. O Kit de Ferramentas (Python)</h2>
+            <p class="lead">Não precisamos reinventar a roda. O ecossistema possui bibliotecas extremamente maduras:</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 15px;">8. O Kit de Ferramentas (Python)</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 45%; text-align: left; font-size: 0.65em; line-height: 1.2;">
-            <p style="margin-bottom: 10px; color: #ccc;">Não precisamos reinventar a roda. O ecossistema possui
-              bibliotecas extremamente maduras:</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span style="color: #ffb86c; font-weight: bold;">NLTK:</span><br>
+          <div class="body cols cols--wide-left">
+            <ul class="list list--sm">
+              <li class="fragment" style="--c: var(--accent);">
+                <span class="term">NLTK:</span>
                 Principais funcionalidades: tokenização, stemming, lematização e análise de sentimento.
               </li>
-              <li class="fragment" style="margin-bottom: 12px;">
-                <span style="color: #50fa7b; font-weight: bold;">spaCy:</span><br>
+              <li class="fragment" style="--c: var(--positive);">
+                <span class="term">spaCy:</span>
                 Focado em produção. É rápido. Principais funcionalidades: Tokenização, Reconhecimento de Entidades
                 Nomeadas (pessoas, empresas, locais, datas).
               </li>
-              <li class="fragment">
-                <span style="color: #bd93f9; font-weight: bold;">Hugging Face:</span><br>
+              <li class="fragment" style="--c: var(--violet);">
+                <span class="term">Hugging Face:</span>
                 "GitHub da IA". Hub de Modelos pré-treinados. Focado em Transformers, LLMs e Embeddings profundos.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 48%; text-align: center;" class="fragment">
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-
-              <div
-                style="background-color: #282a36; padding: 12px 15px; border-radius: 10px; border-left: 5px solid #ffb86c; box-shadow: 0 0 10px rgba(255,184,108,0.2); text-align: left;">
-                <h4 style="color: #ffb86c; margin: 0 0 5px 0; font-size: 1.05em;">NLTK</h4>
-                <p style="color: #aaa; margin: 0; font-size: 0.8em;">Fundamentos e Ensino</p>
+            <div class="fragment">
+              <div class="stack" style="gap: 14px;">
+                <div class="mini" style="--c: var(--accent);">
+                  <h3>NLTK</h3>
+                  <p>Fundamentos e Ensino</p>
+                </div>
+                <div class="mini" style="--c: var(--positive);">
+                  <h3>spaCy</h3>
+                  <p>Desempenho e Produção</p>
+                </div>
+                <div class="mini" style="--c: var(--violet);">
+                  <h3>Hugging Face 🤗</h3>
+                  <p>Embeddings e LLMs</p>
+                </div>
               </div>
-
-              <div
-                style="background-color: #282a36; padding: 12px 15px; border-radius: 10px; border-left: 5px solid #50fa7b; box-shadow: 0 0 10px rgba(80,250,123,0.2); text-align: left;">
-                <h4 style="color: #50fa7b; margin: 0 0 5px 0; font-size: 1.05em;">spaCy</h4>
-                <p style="color: #aaa; margin: 0; font-size: 0.8em;">Desempenho e Produção</p>
-              </div>
-
-              <div
-                style="background-color: #282a36; padding: 12px 15px; border-radius: 10px; border-left: 5px solid #bd93f9; box-shadow: 0 0 10px rgba(189,147,249,0.2); text-align: left;">
-                <h4 style="color: #bd93f9; margin: 0 0 5px 0; font-size: 1.05em;">Hugging Face 🤗</h4>
-                <p style="color: #aaa; margin: 0; font-size: 0.8em;">Embeddings e LLMs</p>
-              </div>
-
+              <p class="caption">(O arsenal de todo desenvolvedor de PLN)</p>
             </div>
-            <p style="font-size: 0.4em; color: #888; margin-top: 10px;">(O arsenal de todo desenvolvedor de PLN)</p>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -823,41 +1787,31 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 9. VISUALIZAÇÃO DE DADOS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>9. Visualização de Dados</h2>
+            <p class="lead">Ler milhares de linhas é impossível para humanos. Precisamos desenhar os dados.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">9. Visualização de Dados</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 45%; text-align: left; font-size: 0.65em; line-height: 1.3;">
-            <p style="margin-bottom: 20px; color: #ccc;">Ler milhares de linhas é impossível para humanos. Precisamos
-              desenhar os dados.</p>
-
-            <div style="display: flex; flex-direction: column; gap: 20px;">
-              <div class="fragment"
-                style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border-left: 4px solid #66b3ff;">
-                <span style="color: #66b3ff; font-weight: bold;">Nuvem de Palavras:</span><br>
-                O tamanho da palavra é proporcional à sua frequência ou relevância no texto.
+          <div class="body cols cols--half">
+            <div class="stack">
+              <div class="card card--side fragment">
+                <span class="label">Nuvem de Palavras:</span>
+                <p>O tamanho da palavra é proporcional à sua frequência ou relevância no texto.</p>
               </div>
-
-              <div class="fragment"
-                style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; border-left: 4px solid #66b3ff;">
-                <span style="color: #66b3ff; font-weight: bold;">Utilidade:</span><br>
-                Identificar os temas centrais de grandes volumes de dados de forma instantânea.
+              <div class="card card--side fragment">
+                <span class="label">Utilidade:</span>
+                <p>Identificar os temas centrais de grandes volumes de dados de forma instantânea.</p>
               </div>
             </div>
+
+            <figure class="fragment">
+              <img class="photo" src="./imgs/wordcloud.jpg" alt="Nuvem de Palavras">
+              <p class="caption">(Visualização gerada para análise de frequência de termos)</p>
+            </figure>
           </div>
-
-          <div class="fragment" style="width: 50%; text-align: center;">
-
-            <img src="imgs/wordcloud.jpg" alt="Nuvem de Palavras"
-              style="width: 100%; height: auto; max-height: 350px; object-fit: contain; border-radius: 10px; border: 2px solid #00ffff; box-shadow: 0 0 15px rgba(0,255,255,0.2); background: transparent; margin: 0;">
-
-            <p style="font-size: 0.4em; color: #888; margin-top: 15px;">(Visualização gerada para análise de frequência
-              de termos)</p>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -867,58 +1821,40 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 10. CRIANDO A NUVEM ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>10. Criando a Nuvem (Python)</h2>
+            <p class="lead">Gerar uma imagem baseada em dados textuais exige apenas duas ferramentas clássicas:</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">10. Criando a Nuvem (Python)</h3>
-
-        <div style="display: flex; align-items: center; justify-content: space-between;">
-
-          <div style="width: 36%; text-align: left; font-size: 0.65em; line-height: 1.3;">
-            <p style="margin-bottom: 15px; color: #ccc;">Gerar uma imagem baseada em dados textuais exige apenas duas
-              ferramentas clássicas:</p>
-            <ul>
-              <li class="fragment" style="margin-bottom: 15px;">
-                <span style="color: #ffb86c; font-weight: bold;">wordcloud:</span><br>
+          <div class="body cols cols--code">
+            <ul class="list list--sm">
+              <li class="fragment">
+                <span class="term mono">wordcloud:</span>
                 Faz a matemática pesada. Ela conta a frequência, calcula os tamanhos e encaixa as palavras no espaço.
               </li>
               <li class="fragment">
-                <span style="color: #ffb86c; font-weight: bold;">matplotlib:</span><br>
+                <span class="term mono">matplotlib:</span>
                 A biblioteca padrão do Python para plotar gráficos. Usamos ela para renderizar e exibir a imagem gerada.
               </li>
             </ul>
-          </div>
 
-          <div style="width: 62%;" class="fragment">
-            <div
-              style="background-color: rgba(255, 255, 255, 0.05); border-radius: 8px; border-left: 4px solid #00ffff; text-align: left; padding: 15px; font-size: 0.65em; line-height: 1.6; color: #ccc;">
-              <p style="margin: 0 0 15px 0;">
-                <strong style="color: #00ffff;">Exemplo:</strong> Com o texto já limpo e processado, geramos a nuvem em
-                poucas etapas:
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 1:</strong> Importamos as bibliotecas necessárias (<span
-                  style="color: #00ffff; font-weight: bold;">WordCloud</span> e
-                <span style="color: #00ffff; font-weight: bold;">Matplotlib</span>).
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 2:</strong> Passamos nosso texto limpo para a <span
-                  style="color: #00ffff; font-weight: bold;">WordCloud</span> com
-                configurações (tamanho 800x400, fundo branco).<br>
-                A biblioteca automaticamente conta a frequência de cada palavra e calcula o tamanho de exibição.
-              </p>
-              <p style="margin: 0 0 10px 0;">
-                <strong style="color: #ffb86c;">Passo 3:</strong> Usamos <span
-                  style="color: #00ffff; font-weight: bold;">Matplotlib</span> para renderizar e exibir a imagem
-                gerada na tela.
-              </p>
-              <p style="margin: 0; color: #50fa7b;">
-                <strong>Resultado:</strong> Uma nuvem de palavras onde palavras mais frequentes
-                aparecem maiores.
-              </p>
+            <div class="steps fragment">
+              <p><strong class="hl">Exemplo:</strong> Com o texto já limpo e processado, geramos a nuvem em poucas
+                etapas:</p>
+              <p><span class="step__n">Passo 1:</span> Importamos as bibliotecas necessárias (<span
+                  class="hl">WordCloud</span> e <span class="hl">Matplotlib</span>).</p>
+              <p><span class="step__n">Passo 2:</span> Passamos nosso texto limpo para a <span
+                  class="hl">WordCloud</span> com configurações (tamanho 800x400, fundo branco).
+                A biblioteca automaticamente conta a frequência de cada palavra e calcula o tamanho de exibição.</p>
+              <p><span class="step__n">Passo 3:</span> Usamos <span class="hl">Matplotlib</span> para renderizar e
+                exibir a imagem gerada na tela.</p>
+              <p class="pos"><strong class="pos">Resultado:</strong> Uma nuvem de palavras onde palavras mais frequentes
+                aparecem maiores.</p>
             </div>
           </div>
-
         </div>
 
         <aside class="notes">
@@ -929,44 +1865,35 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 11. ANÁLISE DE SENTIMENTO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>11. O que é Análise de Sentimento?</h2>
+            <p class="lead">A "coroação" do Processamento de Linguagem Natural. É a capacidade da máquina de ler um
+              texto
+              e interpretar a <span class="hl">emoção, opinião ou atitude</span> por trás dele.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">11. O que é Análise de Sentimento?</h3>
+          <div class="body grid-3">
+            <div class="card sentiment fragment" style="--c: var(--positive);">
+              <div class="card__icon"><i data-lucide="smile"></i></div>
+              <h3>Positivo</h3>
+              <p>"Adorei o produto, a entrega foi super rápida e o material é excelente!"</p>
+            </div>
 
-        <div
-          style="width: 90%; margin: 0 auto; text-align: center; font-size: 0.7em; line-height: 1.3; margin-bottom: 30px;">
-          <p style="color: #ccc;">A "coroação" do Processamento de Linguagem Natural.<br>É a capacidade da máquina de
-            ler um texto e interpretar a <span style="color: #66b3ff; font-weight: bold;">emoção, opinião ou
-              atitude</span> por trás dele.</p>
-        </div>
+            <div class="card sentiment fragment" style="--c: var(--slate);">
+              <div class="card__icon"><i data-lucide="meh"></i></div>
+              <h3>Neutro</h3>
+              <p>"O pacote chegou na terça-feira pelo correio conforme o agendado."</p>
+            </div>
 
-        <div style="display: flex; justify-content: center; gap: 20px; width: 95%; margin: 0 auto;">
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 30%; padding: 20px; border-radius: 10px; border-top: 5px solid #50fa7b; box-shadow: 0 0 15px rgba(80,250,123,0.1);">
-            <div style="font-size: 2.5em; margin-bottom: 10px;">😊</div>
-            <h4 style="color: #50fa7b; margin-bottom: 10px; font-size: 0.9em;">Positivo</h4>
-            <p style="color: #aaa; font-style: italic; font-size: 0.6em; line-height: 1.2;">"Adorei o produto, a entrega
-              foi super rápida e o material é excelente!"</p>
+            <div class="card sentiment fragment" style="--c: var(--negative);">
+              <div class="card__icon"><i data-lucide="angry"></i></div>
+              <h3>Negativo</h3>
+              <p>"Péssimo atendimento, o aplicativo trava toda hora. Nunca mais uso."</p>
+            </div>
           </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 30%; padding: 20px; border-radius: 10px; border-top: 5px solid #f8f8f2; box-shadow: 0 0 15px rgba(248,248,242,0.1);">
-            <div style="font-size: 2.5em; margin-bottom: 10px;">😐</div>
-            <h4 style="color: #f8f8f2; margin-bottom: 10px; font-size: 0.9em;">Neutro</h4>
-            <p style="color: #aaa; font-style: italic; font-size: 0.6em; line-height: 1.2;">"O pacote chegou na
-              terça-feira pelo correio conforme o agendado."</p>
-          </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 30%; padding: 20px; border-radius: 10px; border-top: 5px solid #ff5555; box-shadow: 0 0 15px rgba(255,85,85,0.1);">
-            <div style="font-size: 2.5em; margin-bottom: 10px;">😡</div>
-            <h4 style="color: #ff5555; margin-bottom: 10px; font-size: 0.9em;">Negativo</h4>
-            <p style="color: #aaa; font-style: italic; font-size: 0.6em; line-height: 1.2;">"Péssimo atendimento, o
-              aplicativo trava toda hora. Nunca mais uso."</p>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -978,42 +1905,42 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
+      <!-- ===================== 12. ONDE É USADO ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>12. Onde isso é usado na prática?</h2>
+            <p class="lead">A Análise de Sentimento não é só teoria. Ela move o mercado e automatiza decisões.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 20px;">12. Onde isso é usado na prática?</h3>
+          <div class="body grid-3">
+            <div class="card card--plain-title fragment" style="--c: var(--accent);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="shopping-cart"></i></div>
+                <h3>E-commerce e Reviews</h3>
+              </div>
+              <p>Lojas gigantes usam PLN para ler automaticamente milhares de avaliações e criar um "termômetro" de
+                qualidade do produto, sem intervenção humana.</p>
+            </div>
 
-        <p style="color: #ccc; font-size: 0.7em; margin-bottom: 30px;">A Análise de Sentimento não é só teoria. Ela move
-          o mercado e automatiza decisões.</p>
+            <div class="card card--plain-title fragment" style="--c: var(--primary);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="smartphone"></i></div>
+                <h3>Monitoramento de Marca</h3>
+              </div>
+              <p>Empresas monitoram redes sociais em tempo real. Se o sentimento sobre a marca despenca nos Trending
+                Topics, a equipe de crise é acionada na mesma hora.</p>
+            </div>
 
-        <div style="display: flex; justify-content: space-between; gap: 15px; width: 95%; margin: 0 auto;">
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 32%; padding: 15px; border-radius: 10px; border-top: 4px solid #ffb86c; text-align: left; box-shadow: 0 0 10px rgba(255,184,108,0.1);">
-            <div style="font-size: 2em; margin-bottom: 10px;">🛒</div>
-            <h4 style="color: #ffb86c; margin-bottom: 10px; font-size: 0.85em;">E-commerce e Reviews</h4>
-            <p style="color: #aaa; font-size: 0.6em; line-height: 1.3;">Lojas gigantes usam PLN para ler automaticamente
-              milhares de avaliações e criar um "termômetro" de qualidade do produto, sem intervenção humana.</p>
+            <div class="card card--plain-title fragment" style="--c: var(--violet);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="headphones"></i></div>
+                <h3>Triagem Inteligente</h3>
+              </div>
+              <p>Chatbots analisam o nível de frustração do cliente pelo texto. Se o sentimento for muito negativo, o
+                sistema pula o robô e passa a fila direto para um atendente.</p>
+            </div>
           </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 32%; padding: 15px; border-radius: 10px; border-top: 4px solid #8be9fd; text-align: left; box-shadow: 0 0 10px rgba(139,233,253,0.1);">
-            <div style="font-size: 2em; margin-bottom: 10px;">📱</div>
-            <h4 style="color: #8be9fd; margin-bottom: 10px; font-size: 0.85em;">Monitoramento de Marca</h4>
-            <p style="color: #aaa; font-size: 0.6em; line-height: 1.3;">Empresas monitoram redes sociais em tempo real.
-              Se o sentimento sobre a marca despenca nos Trending Topics, a equipe de crise é acionada na mesma hora.
-            </p>
-          </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 32%; padding: 15px; border-radius: 10px; border-top: 4px solid #bd93f9; text-align: left; box-shadow: 0 0 10px rgba(189,147,249,0.1);">
-            <div style="font-size: 2em; margin-bottom: 10px;">🎧</div>
-            <h4 style="color: #bd93f9; margin-bottom: 10px; font-size: 0.85em;">Triagem Inteligente</h4>
-            <p style="color: #aaa; font-size: 0.6em; line-height: 1.3;">Chatbots analisam o nível de frustração do
-              cliente pelo texto. Se o sentimento for muito negativo, o sistema pula o robô e passa a fila direto para
-              um atendente.</p>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -1024,41 +1951,38 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== 13. INIMIGOS DA MÁQUINA ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>13. Os "Inimigos" da Máquina</h2>
+            <p class="lead">A linguagem humana não é matemática pura. Ela é cheia de armadilhas que enganam os
+              algoritmos.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 10px; margin-top: -120px;">13. Os "Inimigos" da Máquina</h3>
+          <div class="body grid-2">
+            <div class="card fragment" style="--c: var(--negative);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="drama"></i></div>
+                <h3>Sarcasmo e Ironia</h3>
+              </div>
+              <p>Usar palavras positivas para expressar frustração. Modelos simples leem as palavras e erram a
+                classificação feio.</p>
+              <div class="quote">"O celular quebrou no primeiro dia. Simplesmente <strong class="pos">maravilhoso!
+                  Parabéns!</strong>"</div>
+            </div>
 
-        <p style="color: #ccc; font-size: 0.7em; margin-bottom: 30px;">A linguagem humana não é matemática pura. Ela é
-          cheia de armadilhas que enganam os algoritmos.</p>
-
-        <div
-          style="display: flex; justify-content: space-around; gap: 20px; width: 95%; margin: 0 auto; font-size: 0.65em;">
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 45%; padding: 20px; border-radius: 10px; border-left: 5px solid #ff5555; text-align: left; box-shadow: 0 0 15px rgba(255,85,85,0.1);">
-            <h4 style="color: #ff5555; margin-bottom: 15px; font-size: 1.1em;">🤡 Sarcasmo e Ironia</h4>
-            <p style="color: #aaa; margin-bottom: 15px; line-height: 1.3;">Usar palavras positivas para expressar
-              frustração. Modelos simples leem as palavras e erram a classificação feio.</p>
-            <div
-              style="background: rgba(255,85,85,0.1); padding: 12px; border-radius: 5px; border: 1px dashed #ff5555;">
-              <span style="color: #f8f8f2; font-style: italic;">"O celular quebrou no primeiro dia. Simplesmente <span
-                  style="color: #50fa7b; font-weight: bold;">maravilhoso! Parabéns!</span>"</span>
+            <div class="card fragment" style="--c: var(--accent);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="languages"></i></div>
+                <h3>Contexto e Gírias</h3>
+              </div>
+              <p>Palavras que mudam completamente de sentido dependendo da geração ou do nicho específico.</p>
+              <div class="quote">"Esse novo jogo é um <strong class="neg">absurdo</strong>, a jogabilidade tá muito
+                <strong class="neg">doente</strong>!"
+              </div>
             </div>
           </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 45%; padding: 20px; border-radius: 10px; border-left: 5px solid #ffb86c; text-align: left; box-shadow: 0 0 15px rgba(255,184,108,0.1);">
-            <h4 style="color: #ffb86c; margin-bottom: 15px; font-size: 1.1em;">🤔 Contexto e Gírias</h4>
-            <p style="color: #aaa; margin-bottom: 15px; line-height: 1.3;">Palavras que mudam completamente de sentido
-              dependendo da geração ou do nicho específico.</p>
-            <div
-              style="background: rgba(255,184,108,0.1); padding: 12px; border-radius: 5px; border: 1px dashed #ffb86c;">
-              <span style="color: #f8f8f2; font-style: italic;">"Esse novo jogo é um <span
-                  style="color: #ff5555; font-weight: bold;">absurdo</span>, a jogabilidade tá muito <span
-                  style="color: #ff5555; font-weight: bold;">doente</span>!"</span>
-            </div>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -1070,48 +1994,42 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== 14. COMO O CLASSIFICADOR FUNCIONA ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>14. Como o Classificador Funciona?</h2>
+            <p class="lead">Dois caminhos para ensinar a máquina a "sentir" o texto.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 5px; margin-top: -80px;">14. Como o Classificador Funciona?</h3>
+          <div class="body grid-2">
+            <div class="card fragment" style="--c: var(--accent);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="book-open"></i></div>
+                <h3>Léxica (Dicionários)</h3>
+              </div>
+              <ul class="list list--sm" style="gap: 10px;">
+                <li>Usa um banco de palavras pré-avaliadas (ex: <span class="pos">"bom"=+1</span>, <span
+                    class="neg">"ruim"=-1</span>).</li>
+                <li>O algoritmo apenas lê a frase e soma os pontos matemáticos.</li>
+                <li><strong>Pró:</strong> Muito rápido e não exige treinamento prévio.</li>
+                <li><strong>Contra:</strong> Ignora totalmente o contexto. Falha com ironia.</li>
+              </ul>
+            </div>
 
-        <p style="color: #ccc; font-size: 0.65em; margin-bottom: 20px;">Dois caminhos para ensinar a máquina a "sentir"
-          o texto.</p>
-
-        <div style="display: flex; justify-content: center; gap: 20px; width: 95%; margin: 0 auto;">
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 45%; padding: 15px; border-radius: 10px; border-top: 5px solid #ffb86c; text-align: left; box-shadow: 0 0 15px rgba(255,184,108,0.1);">
-            <h4
-              style="color: #ffb86c; margin-bottom: 15px; font-size: 0.95em; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
-              <span style="font-size: 1.4em;">📖</span> Léxica (Dicionários)
-            </h4>
-            <ul style="color: #aaa; font-size: 0.58em; line-height: 1.3; padding-left: 20px; margin: 0;">
-              <li style="margin-bottom: 8px;">Usa um banco de palavras pré-avaliadas (ex: <span
-                  style="color:#50fa7b;">"bom"=+1</span>, <span style="color:#ff5555;">"ruim"=-1</span>).</li>
-              <li style="margin-bottom: 8px;">O algoritmo apenas lê a frase e soma os pontos matemáticos.</li>
-              <li style="margin-bottom: 8px;"><span style="color: #f8f8f2; font-weight: bold;">Pró:</span> Muito rápido
-                e não exige treinamento prévio.</li>
-              <li><span style="color: #f8f8f2; font-weight: bold;">Contra:</span> Ignora totalmente o contexto. Falha
-                com ironia.</li>
-            </ul>
+            <div class="card fragment" style="--c: var(--violet);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="brain"></i></div>
+                <h3>Machine Learning</h3>
+              </div>
+              <ul class="list list--sm" style="gap: 10px;">
+                <li>Modelo treinado com milhares de exemplos já classificados.</li>
+                <li>Aprende padrões da linguagem, não apenas palavras isoladas.</li>
+                <li><strong>Pró:</strong> Entende o contexto e resolve problemas complexos.</li>
+                <li><strong>Contra:</strong> Exige muito volume de dados e poder computacional.</li>
+              </ul>
+            </div>
           </div>
-
-          <div class="fragment"
-            style="background-color: #282a36; width: 45%; padding: 15px; border-radius: 10px; border-top: 5px solid #bd93f9; text-align: left; box-shadow: 0 0 15px rgba(189,147,249,0.1);">
-            <h4
-              style="color: #bd93f9; margin-bottom: 15px; font-size: 0.95em; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
-              <span style="font-size: 1.4em;">🧠</span> Machine Learning
-            </h4>
-            <ul style="color: #aaa; font-size: 0.58em; line-height: 1.3; padding-left: 20px; margin: 0;">
-              <li style="margin-bottom: 8px;">Modelo treinado com milhares de exemplos já classificados.</li>
-              <li style="margin-bottom: 8px;">Aprende padrões da linguagem, não apenas palavras isoladas.</li>
-              <li style="margin-bottom: 8px;"><span style="color: #f8f8f2; font-weight: bold;">Pró:</span> Entende o
-                contexto e resolve problemas complexos.</li>
-              <li><span style="color: #f8f8f2; font-weight: bold;">Contra:</span> Exige muito volume de dados e poder
-                computacional.</li>
-            </ul>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -1123,41 +2041,43 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom, #000000, #111122)">
-        <h2 style="color: #00ffff; margin-bottom: 5px; margin-top: -60px;">15. O Atalho: Modelos Pré-Treinados</h2>
-        <p style="font-size: 0.65em; color: #ccc;">Na vida real, tempo é dinheiro. Usamos bibliotecas que já "estudaram"
-          bilhões de frases.</p>
+      <!-- ===================== 15. MODELOS PRÉ-TREINADOS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>15. O Atalho: Modelos Pré-Treinados</h2>
+            <p class="lead">Na vida real, tempo é dinheiro. Usamos bibliotecas que já "estudaram" bilhões de frases.</p>
+          </header>
 
-        <div style="display: flex; justify-content: space-around; gap: 10px; margin-top: 20px;">
+          <div class="body grid-3">
+            <div class="card" style="--c: var(--primary);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="droplet"></i></div>
+                <h3>TextBlob</h3>
+              </div>
+              <p>Baseada no clássico NLTK.</p>
+              <p>Retorna <b>Polaridade</b> (-1 a 1) e <b>Subjetividade</b>.</p>
+              <p>Ideal para textos formais, notícias e artigos limpos.</p>
+            </div>
 
-          <div
-            style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; width: 30%; border-top: 5px solid #00d4ff;">
-            <h3 style="color: #00d4ff; font-size: 0.9em;">💧 TextBlob</h3>
-            <p style="font-size: 0.45em; color: #eee; line-height: 1.4; text-align: left;">
-              Baseada no clássico NLTK. <br><br>
-              Retorna <b>Polaridade</b> (-1 a 1) e <b>Subjetividade</b>.<br><br>
-              Ideal para textos formais, notícias e artigos limpos.
-            </p>
+            <div class="card" style="--c: var(--pink);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="flame"></i></div>
+                <h3>VADER</h3>
+              </div>
+              <p>Otimizado para redes sociais e reviews.</p>
+              <p>Entende que <b>"RUIM!!!"</b> é pior que "ruim" e que <b>"😡"</b> muda tudo.</p>
+            </div>
+
+            <div class="card" style="--c: var(--yellow);">
+              <div class="card__top">
+                <div class="card__icon"><i data-lucide="smile"></i></div>
+                <h3>Hugging Face</h3>
+              </div>
+              <p><b>Deep Learning (Transformers)</b>.</p>
+              <p>O "cérebro" mais potente. Entende contexto, ironia e nuances complexas da linguagem.</p>
+            </div>
           </div>
-
-          <div
-            style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; width: 30%; border-top: 5px solid #ff0055;">
-            <h3 style="color: #ff0055; font-size: 0.9em;">🔥 VADER</h3>
-            <p style="font-size: 0.55em; color: #eee; line-height: 1.4; text-align: left;">
-              Otimizado para redes sociais e reviews.<br><br>
-              Entende que <b>"RUIM!!!"</b> é pior que "ruim" e que <b>"😡"</b> muda tudo.
-            </p>
-          </div>
-
-          <div
-            style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; width: 30%; border-top: 5px solid #ffcc00;">
-            <h3 style="color: #ffcc00; font-size: 0.9em;">🤗 Hugging Face</h3>
-            <p style="font-size: 0.55em; color: #eee; line-height: 1.4; text-align: left;">
-              <b>Deep Learning (Transformers)</b>.<br><br>
-              O "cérebro" mais potente. Entende contexto, ironia e nuances complexas da linguagem.
-            </p>
-          </div>
-
         </div>
 
         <aside class="notes">
@@ -1166,159 +2086,97 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <!-- Slide 17: Vamos Praticar -->
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
-        <div style="text-align: center; width: 100%;">
-          <div style="margin-bottom: 40px;">
-            <span style="font-size: 4em; display: block; margin-bottom: 20px;">💻</span>
-            <h1 style="color: #00ffff; margin: 0; font-size: 3.5em; letter-spacing: 3px;">
-              VAMOS PRATICAR</h1>
-            <div
-              style="height: 4px; background: linear-gradient(to right, transparent, #00ffff, transparent); width: 60%; margin: 30px auto;">
-            </div>
-          </div>
-          <p style="color: #00ffff; font-size: 1.3em; margin-top: 30px; font-weight: bold;">Hora de colocar a teoria em
-            ação</p>
+      <!-- ===================== VAMOS PRATICAR ===================== -->
+      <section
+        data-background-gradient="radial-gradient(circle at 50% 45%, rgba(34,211,238,0.14), transparent 55%), #05070d">
+        <div class="slide practice">
+          <div class="practice__icon"><i data-lucide="laptop"></i></div>
+          <h1 class="glow">VAMOS PRATICAR</h1>
+          <div class="practice__line"></div>
+          <p class="lead">Hora de colocar a teoria em ação</p>
         </div>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
+      <!-- ===================== 16. EXEMPLO COM VADER ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>16. Exemplo com VADER</h2>
+            <p class="lead">Analisando uma frase complexa com o VADER em poucas linhas.</p>
+          </header>
 
-        <h3 style="color: #00ffff; margin-bottom: 10px; margin-top: -80px;">16. Exemplo com VADER</h3>
-        <p style="color: #ccc; font-size: 0.65em; margin-bottom: 25px;">Analisando uma frase complexa com o VADER em
-          poucas linhas.</p>
-
-        <div style="display: flex; align-items: stretch; justify-content: space-between; width: 95%; margin: 0 auto;">
-
-          <div class="fragment" style="width: 53%;">
-            <div
-              style="background-color: #1e1e2e; border-radius: 8px; border: 1px solid #66b3ff; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.4; color: #f8f8f2; box-shadow: 0 0 15px rgba(102,179,255,0.2);">
-
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ff5f56; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ffbd2e; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#27c93f; border-radius:50%;"></span>
-                <span style="color: #888; margin-left: 10px; font-style: italic;">analise_vader.py</span>
+          <div class="window window--cell">
+            <div class="window__bar"><i></i><i></i><i></i><span class="window__name">analise_vader.py</span></div>
+            <pre><code class="language-python" data-trim data-line-numbers="1-3|4-6|7-9|10-11">
+import re
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+texto = ("My first programming @@@@@@@@ class was AMAZING! I learned a lot!!!!!!!!!!!!!")
+# limpeza
+texto_limpo = re.sub(r'[^\w\s]', ' ', texto.lower())
+texto_limpo = re.sub(r'\s+', ' ', texto_limpo).strip()
+# análise de sentimento
+analyzer = SentimentIntensityAnalyzer()
+analise = analyzer.polarity_scores(texto_limpo)
+print("Texto Limpo:", texto_limpo)
+print("Polaridade Geral (Compound):", analise['compound'])
+            </code></pre>
+            <div class="output fragment">
+              <div class="output__cmd">user@ubuntu:~/projetos/pln$ python3 analise_vader.py</div>
+              <div class="output__row">
+                <div>
+                  <div>Texto Limpo: <span class="out">my first programming class was amazing i learned a lot</span>
+                  </div>
+                  <div>Polaridade Geral (Compound): <span class="out">0.5859</span></div>
+                </div>
+                <p class="caption">(Compound vai de -1 a 1: 0.5859 indica sentimento positivo)</p>
               </div>
-
-              <span style="color: #ff79c6;">from</span> vaderSentiment.vaderSentiment <span
-                style="color: #ff79c6;">import</span> SentimentIntensityAnalyzer<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 1. Instanciando o classificador</span><br>
-              analisador <span style="color: #ff79c6;">=</span> <span
-                style="color: #50fa7b;">SentimentIntensityAnalyzer</span>()<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 2. Frase de teste (com maiúsculas e emoji)</span><br>
-              frase <span style="color: #ff79c6;">=</span> <span style="color: #f1fa8c;">"The service was HORRIBLE!!!
-                I'm never coming back.😡"</span><br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 3. Calculando o sentimento matemático</span><br>
-              resultado <span style="color: #ff79c6;">=</span> analisador.<span
-                style="color: #50fa7b;">polarity_scores</span>(frase)<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #8be9fd; font-style: italic;">print</span>(<span style="color: #f1fa8c;">f"Sentimento
-                final: {resultado['compound']}"</span>)<br>
-
             </div>
           </div>
-
-          <div class="fragment" style="width: 44%;">
-            <div
-              style="background-color: #000000; border-radius: 8px; border: 1px solid #50fa7b; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.5; color: #50fa7b; box-shadow: 0 0 15px rgba(80,250,123,0.2);">
-
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; color: #888;">
-                user@ubuntu:~/projetos/pln$ python3 analise_vader.py
-              </div>
-
-              Texto Limpo: <span style="color: #fff;">my first programming class was amazing i learned a lot</span><br>
-              Polaridade Geral (Compound): <span style="color: #fff;">0.5859</span><br>
-              <div style="margin-top: 15px;"></div>
-              <span style="color: #888;">Process finished with exit code 0</span>
-              <span style="color: #50fa7b; font-weight: bold; margin-left: 2px;">_</span>
-            </div>
-            <p style="font-size: 0.45em; color: #888; margin-top: 15px; text-align: center; margin-bottom: 0;">(VADER
-              captou a intensidade da palavra e do emoji)</p>
-          </div>
-
         </div>
 
         <aside class="notes">
-          E aqui está a prova de conceito rodando de verdade. Com apenas quatro linhas de código nós temos um modelo
-          capaz de ler a frase de um cliente furioso. Percebam como a biblioteca pegou a palavra em maiúsculo, as três
-          exclamações e o emoji, e nos devolveu uma pontuação de -0.85, que é fortemente negativa. Isso já daria uma
-          base excelente para um projeto de TCC incrível, ou até mesmo um script automatizado rodando no servidor lá no
-          seu estágio hoje mesmo! Para quem vai começar o semestre na semana que vem, chegar na faculdade dominando essa
-          ponte entre dados brutos e classificação já coloca vocês em outro patamar.
+          E aqui está a prova de conceito rodando de verdade. Primeiro limpamos o texto com Regex: deixamos tudo em
+          minúsculas e trocamos os @@@@ e as exclamações por espaços. Depois, o VADER calcula a polaridade: o compound
+          vai
+          de -1 (muito negativo) a 1 (muito positivo), e o resultado foi 0.5859, um sentimento positivo.
+          Um detalhe interessante para discutir: o VADER sabe ler intensidade em maiúsculas e exclamações. Ao limpar o
+          texto antes da análise, nós abrimos mão desses sinais.
+          Isso já daria uma base excelente para um projeto de TCC incrível, ou até mesmo um script automatizado rodando
+          no servidor lá no seu estágio hoje mesmo! Para quem vai começar o semestre na semana que vem, chegar na
+          faculdade dominando essa ponte entre dados brutos e classificação já coloca vocês em outro patamar.
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
-        <h3 style="color: #00ffff; margin-bottom: 10px; margin-top: -80px;">17. Exemplo com TextBlob</h3>
-        <p style="color: #ccc; font-size: 0.65em; margin-bottom: 25px;">Processamento rápido com foco em Polaridade e
-          Subjetividade.</p>
+      <!-- ===================== 17. EXEMPLO COM TEXTBLOB ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head">
+            <h2>17. Exemplo com TextBlob</h2>
+            <p class="lead">Processamento rápido com foco em Polaridade e Subjetividade.</p>
+          </header>
 
-        <div style="display: flex; align-items: stretch; justify-content: space-between; width: 95%; margin: 0 auto;">
+          <div class="window window--cell">
+            <div class="window__bar"><i></i><i></i><i></i><span class="window__name">analise_textblob.py</span></div>
+            <pre><code class="language-python" data-trim data-line-numbers="1|3-5|7-9|11">
+from textblob import TextBlob
 
-          <div class="fragment" style="width: 53%;">
-            <div
-              style="background-color: #1e1e2e; border-radius: 8px; border: 1px solid #00d4ff; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.4; color: #f8f8f2; box-shadow: 0 0 15px rgba(0,212,255,0.2);">
+# 1. Limpeza e Transformação (internas ao objeto Blob)
+frase = "This programming tutorial is incredibly helpful!"
+blob = TextBlob(frase)
 
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ff5f56; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ffbd2e; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#27c93f; border-radius:50%;"></span>
-                <span style="color: #888; margin-left: 10px; font-style: italic;">analise_textblob.py</span>
+# 2. Extração de métricas
+polaridade = blob.sentiment.polarity
+subjetividade = blob.sentiment.subjectivity
+
+print(f"Polaridade: {polaridade} | Subj: {subjetividade}")
+            </code></pre>
+            <div class="output fragment">
+              <div class="output__cmd">user@ubuntu:~/projetos/pln$ python3 analise_textblob.py</div>
+              <div class="output__row">
+                <div><span class="out">Polaridade: 1.0 | Subj: 0.9</span></div>
+                <p class="caption">(O TextBlob é excelente para distinguir fatos de opiniões)</p>
               </div>
-
-              <span style="color: #ff79c6;">from</span> textblob <span style="color: #ff79c6;">import</span>
-              TextBlob<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 1. Limpeza e Transformação (internas ao objeto Blob)</span><br>
-              frase <span style="color: #ff79c6;">=</span> <span style="color: #f1fa8c;">"This programming tutorial is
-                incredibly helpful!"</span><br>
-              blob <span style="color: #ff79c6;">=</span> <span style="color: #50fa7b;">TextBlob</span>(frase)<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 2. Extração de métricas</span><br>
-              polaridade <span style="color: #ff79c6;">=</span> blob.sentiment.polarity<br>
-              subjetividade <span style="color: #ff79c6;">=</span> blob.sentiment.subjectivity<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #8be9fd; font-style: italic;">print</span>(<span style="color: #f1fa8c;">f"Polaridade:
-                {polaridade} | Subj: {subjetividade}"</span>)<br>
-
             </div>
-          </div>
-
-          <div class="fragment" style="width: 44%;">
-            <div
-              style="background-color: #000000; border-radius: 8px; border: 1px solid #00d4ff; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.5; color: #00d4ff; box-shadow: 0 0 15px rgba(0,212,255,0.2);">
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; color: #888;">
-                user@ubuntu:~/projetos/pln$ python3 analise_textblob.py
-              </div>
-              Polaridade: <span style="color: #fff;">1.0</span><br>
-              Subjetividade: <span style="color: #fff;">0.9</span><br>
-              <div style="margin-top: 15px;"></div>
-              > Sentimento: <span style="color: #50fa7b; font-weight: bold;">Positivo</span><br>
-              > Tipo: <span style="color: #ffbd2e;">Opinião Pessoal</span><br>
-              <div style="margin-top: 15px;"></div>
-              <span style="color: #888;">Process finished with exit code 0</span>
-              <span style="color: #00d4ff; font-weight: bold; margin-left: 2px;">_</span>
-            </div>
-            <p style="font-size: 0.45em; color: #888; margin-top: 15px; text-align: center;">(O TextBlob é excelente
-              para distinguir fatos de opiniões)</p>
           </div>
         </div>
 
@@ -1329,180 +2187,61 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)">
-        <h3 style="color: #00ffff; margin-bottom: 10px; margin-top: -80px;">18. Exemplo com Transformers e Hugging Face
-        </h3>
-        <p style="color: #ccc; font-size: 0.65em; margin-bottom: 25px;">O poder do Deep Learning para entender contextos
-          profundos e gírias.</p>
+      <!-- ===================== 18. EXEMPLO COM TRANSFORMERS ===================== -->
+      <section>
+        <div class="slide">
+          <header class="head head--long">
+            <h2>18. Exemplo com Transformers e Hugging Face</h2>
+            <p class="lead">O poder do Deep Learning para entender contextos profundos e gírias.</p>
+          </header>
 
-        <div style="display: flex; align-items: stretch; justify-content: space-between; width: 95%; margin: 0 auto;">
-
-          <div class="fragment" style="width: 53%;">
-            <div
-              style="background-color: #1e1e2e; border-radius: 8px; border: 1px solid #ffcc00; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.4; color: #f8f8f2; box-shadow: 0 0 15px rgba(255,204,0,0.2);">
-
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #444; padding-bottom: 5px;">
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ff5f56; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#ffbd2e; border-radius:50%; margin-right:5px;"></span>
-                <span
-                  style="display:inline-block; width:10px; height:10px; background:#27c93f; border-radius:50%;"></span>
-                <span style="color: #888; margin-left: 10px; font-style: italic;">deep_learning_pln.py</span>
+          <div class="window window--cell">
+            <div class="window__bar"><i></i><i></i><i></i><span class="window__name">deep_learning_pln.py</span></div>
+            <pre><code class="language-python" data-trim data-line-numbers="1|2-6|7-8|9-10">
+from transformers import pipeline
+classifier = pipeline(
+    "sentiment-analysis",
+    # modelo multilíngue: classifica o texto de 1 a 5 estrelas
+    model="nlptown/bert-base-multilingual-uncased-sentiment"
+)
+texto = ("A minha PRIMEIRA aula de programação foi INCRÍVEL!!! "
+         "Aprendi MUITO. Fiz o meu primeiro algoritmo em C!")
+resultado = classifier(texto)
+print(resultado)
+            </code></pre>
+            <div class="output fragment">
+              <div class="output__cmd">user@ubuntu:~/projetos/pln$ python3 deep_learning_pln.py</div>
+              <div class="output__row">
+                <div><span class="out">[{'label': '5 stars', 'score': 0.7457928657531738}]</span></div>
+                <p class="caption">(Modelo multilíngue: 5 estrelas com 74,6% de confiança)</p>
               </div>
-
-              <span style="color: #ff79c6;">from</span> transformers <span style="color: #ff79c6;">import</span>
-              pipeline<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 1. Carregando modelo pré-treinado (Transfer Learning)</span><br>
-              classifier <span style="color: #ff79c6;">=</span> <span style="color: #50fa7b;">pipeline</span>(<span
-                style="color: #f1fa8c;">"sentiment-analysis"</span>)<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 2. Contexto complexo (expressões e ironias)</span><br>
-              text <span style="color: #ff79c6;">=</span> <span style="color: #f1fa8c;">"A minha primeira aula de
-                programação foi incrível! Aprendi muito!"</span><br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #6272a4;"># 3. Classificação Automática</span><br>
-              res <span style="color: #ff79c6;">=</span> classifier(text)<br>
-              <div style="margin-top: 8px;"></div>
-
-              <span style="color: #8be9fd; font-style: italic;">print</span>(<span style="color: #f1fa8c;">f"Label:
-                {res[0]['label']}"</span>)<br>
-
             </div>
-          </div>
-
-          <div class="fragment" style="width: 44%;">
-            <div
-              style="background-color: #000000; border-radius: 8px; border: 1px solid #ffcc00; text-align: left; padding: 15px; font-family: 'Courier New', Courier, monospace; font-size: 0.48em; line-height: 1.5; color: #ffcc00; box-shadow: 0 0 15px rgba(255,204,0,0.2);">
-              <div style="margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; color: #888;">
-                user@ubuntu:~/projetos/pln$ python3 deep_learning_pln.py
-              </div>
-              <span style="color: #fff;">[{'label': 'POSITIVE', 'score': 0.72102}]</span><br>
-              <div style="margin-top: 15px;"></div>
-              > Resultado: <span style="color: #50fa7b; font-weight: bold;">POSITIVO</span><br>
-              > Confiança: <span style="color: #50fa7b;">0.72</span><br>
-              <div style="margin-top: 15px;"></div>
-              <span style="color: #888;">Process finished with exit code 0</span>
-              <span style="color: #ffcc00; font-weight: bold; margin-left: 2px;">_</span>
-            </div>
-            <p style="font-size: 0.45em; color: #888; margin-top: 15px; text-align: center;">(Modelos Transformer
-              entendem gírias como "game-changer")</p>
           </div>
         </div>
 
         <aside class="notes">
           Aqui chegamos no estado da arte. Enquanto o VADER olha palavras isoladas e regras, os Transformers (como o
-          BERT ou o GPT) olham para a frase inteira. Ele não precisa que você remova pontuação ou limpe tudo
-          radicalmente, porque ele usa o contexto para entender que "game-changer" é algo extremamente positivo. É a IA
-          de última geração aplicada em três linhas de código.
+          BERT) olham para a frase inteira. Usamos um modelo multilíngue treinado com avaliações de produtos, que
+          classifica o texto de 1 a 5 estrelas — por isso a resposta vem como '5 stars', e não como "positivo".
+          Repare que não precisamos limpar o texto: as maiúsculas e as exclamações ficaram, e o modelo usa o contexto da
+          frase inteira. O resultado foi 5 estrelas, com 74,6% de confiança. É a IA de última geração aplicada em
+          poucas linhas de código.
         </aside>
       </section>
 
-      <section data-background-gradient="linear-gradient(to bottom, #050505, #111122)">
+      <!-- ===================== AGRADECIMENTO ===================== -->
+      <section>
+        <div class="slide thanks">
+          <h1 class="glow">Muito Obrigado!</h1>
+          <p class="lead">Dúvidas? Perguntas?</p>
 
-        <h2
-          style="color: #00ffff; text-shadow: 0 0 15px rgba(0, 255, 255, 0.6); margin-bottom: 15px; margin-top: -40px;">
-          💻 Desafio Hands-on
-        </h2>
+          <div class="thanks__robot fragment">
+            <img src="./imgs/depositphotos_472711578-stock-photo-little-robot-giving-thumbs-isolated.jpg"
+              alt="Robô de Inteligência Artificial agradecendo">
+          </div>
 
-        <div
-          style="background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 10px; border-left: 5px solid #ff0055; text-align: left; width: 90%; margin: 0 auto;">
-
-          <p
-            style="color: #ff0055; font-weight: bold; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9em;">
-            Sua Missão:</p>
-
-          <p
-            style="font-family: 'Courier New', monospace; font-size: 0.9em; color: #fff; margin-bottom: 15px; background: #000; padding: 10px; border-radius: 5px;">
-            texto = "A minha PRIMEIRA aula de programação foi INCRÍVEL!!! 💻✨ Aprendi MUITO. Fiz o meu primeiro
-            algoritmo em C!"
-          </p>
-
-          <ol style="font-size: 0.8em; color: #ccc; line-height: 1.4; margin-bottom: 0;">
-            <li style="margin-bottom: 8px;"><strong>Limpar o texto:</strong> Como deixamos tudo em minúsculo e removemos
-              as pontuações e emojis?</li>
-            <li><strong>Analisar:</strong> Como passamos o texto limpo na ferramenta de sentimento?</li>
-          </ol>
-
+          <p class="thanks__footer">Apresentação criada com ❤️, Python e muito Processamento de Linguagem Natural.</p>
         </div>
-
-        <aside class="notes">
-          Deixe este slide na tela.
-          Dê 2 a 3 minutos para a turma pensar ou rascunhar como seria o código.
-          Pergunte: "O que o nosso Regex precisa arrancar dessa frase para ela ficar limpa?"
-        </aside>
-
-      </section>
-
-      <section data-background-gradient="linear-gradient(to bottom, #111122, #000000)">
-
-        <h2 style="color: #00ffff; margin-bottom: 9px; margin-top: -30px;">
-          Solução em Python
-        </h2>
-
-        <pre style="width: 95%; margin: 0 auto 10px auto; box-shadow: 0 0 30px rgba(0,255,255,0.15);"><code class="python" data-trim data-noescape style="font-size: 0.8em; line-height: 1.2; border: 1px solid #00ffff; border-radius: 10px; padding: 15px; white-space: pre-wrap; word-wrap: break-word;">
-    !pip install transformers torch
-    import re
-    from transformers import pipeline
-    texto = ("A minha PRIMEIRA aula de programação foi INCRÍVEL!!!"
-            "Aprendi MUITO. Fiz o meu primeiro algoritmo em C!")
-    # Limpeza (opcional, mas boa prática)
-    texto_limpo = re.sub(r'[^\w\s]', ' ', texto.lower())
-    texto_limpo = re.sub(r'\s+', ' ', texto_limpo).strip()
-    # Análise de sentimento
-    classifier = pipeline(
-        "sentiment-analysis",
-        model="nlptown/bert-base-multilingual-uncased-sentiment"
-    )
-    resultado = classifier(texto_limpo)
-    print(f"Texto limpo : {texto_limpo}")
-    print(f"Label       : {resultado[0]['label']}")
-    print(f"Score       : {resultado[0]['score']:.4f}") 
-      </code></pre>
-
-        <div class="fragment"
-          style="width: 95%; margin: 0 auto; background: rgba(0, 200, 255, 0.05); padding: 9px 14px 4px 14px; border-radius: 6px; border-left: 5px solid #00ffff; text-align: left;">
-          <p
-            style="margin: 0; font-size: 0.65em; color: #00ffff; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">
-            Saída do Terminal:</p>
-          <p
-            style="margin-top: 3px; margin-bottom: 0; font-family: 'Courier New', monospace; font-size: 0.75em; color: #ccc; line-height: 1.15;">
-            <span style="color: #aaa;">Texto limpo :</span> a minha primeira aula de programação foi incrível aprendi
-            muito fiz o meu primeiro algoritmo em c<br>
-            <span style="color: #aaa;">Label :</span> <span style="color: #50fa7b; font-weight: bold;">5
-              stars</span><br>
-            <span style="color: #aaa;">Score :</span> <span style="color: #50fa7b; font-weight: bold;">0.6098</span>
-          </p>
-        </div>
-
-        <aside class="notes">
-          removido
-        </aside>
-
-      </section>
-
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="padding-bottom: 40px;">
-
-        <h1
-          style="color: #00ffff; font-size: 2.5em; text-shadow: 0 0 20px rgba(0, 255, 255, 0.6); margin-bottom: 15px;">
-          Muito Obrigado!</h1>
-
-        <p style="color: #ccc; font-size: 0.75em; margin-bottom: 40px; font-style: italic;">Dúvidas? Perguntas?</p>
-
-        <div class="fragment" style="display: flex; justify-content: center; align-items: center; margin-bottom: 40px;">
-          <img src="imgs/depositphotos_472711578-stock-photo-little-robot-giving-thumbs-isolated.jpg"
-            alt="Robô de Inteligência Artificial agradecendo"
-            style="height: 350px; width: auto; object-fit: contain; filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.4));">
-        </div>
-
-        <p style="font-size: 0.45em; color: #888;">
-          Apresentação criada com ❤️, Python e muito Processamento de Linguagem Natural.
-        </p>
 
         <aside class="notes">
           Pessoal, muito obrigado pela atenção de todos! Espero que esta jornada desde os dados brutos até a análise de
@@ -1511,40 +2250,25 @@ print(texto_limpo)
         </aside>
       </section>
 
-      <!-- Slide Final: Formulário de Presença e Avaliação (texto reduzido e QR maior) -->
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="display: flex; align-items: center; justify-content: center; padding: 40px;">
+      <!-- ===================== ACESSO AOS CÓDIGOS (QR CODE) ===================== -->
+      <section>
+        <div class="slide closing">
+          <div class="cols cols--wide-left">
+            <div>
+              <h2 class="access-title">Link para de acesso aos códigos da aula de PLN</h2>
+              <p class="lead">Acesse os códigos da aula em:</p>
+              <a class="access-link"
+                href="https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing"
+                target="_blank">https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing</a>
+            </div>
 
-        <div style="text-align: center; color: #ccc; width: 100%;">
-          <h2 style="color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.7); margin-bottom: 20px; font-size: 1.6em;">
-            Formulário de registro de presença e avaliação da oficina.</h2>
-
-          <div style="display: flex; justify-content: center;">
-            <img src="./imgs/qrcode_docs.google.com.png" alt="QR code para formulário" class="tech-image"
-              style="width: 420px; height: 420px; object-fit: contain;">
+            <div class="qr-card">
+              <div class="qr">
+                <img src="./imgs/adobe-express-qr-code.png" alt="QR code para os códigos da aula">
+              </div>
+            </div>
           </div>
         </div>
-
-      </section>
-
-      <!-- Slide Adicional: Link para acesso aos códigos da aula -->
-      <section data-background-gradient="linear-gradient(to bottom right, #111122, #000000)"
-        style="display:flex; align-items:center; justify-content:center; padding:40px;">
-
-        <div style="text-align:center; color:#ccc; width:100%;">
-          <h2 style="color:#00ffff; text-shadow:0 0 10px rgba(0,255,255,0.7); margin-bottom:20px; font-size:1.6em;">
-            Link para de acesso aos códigos da aula de PLN
-          </h2>
-
-          <p style="color:#ccc; font-size:0.9em; margin-bottom:10px;">Acesse os códigos da aula em:</p>
-
-          <a href="https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing" target="_blank"
-            style="color:#00ffff; font-size:1.05em; word-break:break-all; display:inline-block;">
-            https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing
-          </a>
-
-        </div>
-
       </section>
 
     </div>
@@ -1553,13 +2277,22 @@ print(texto_limpo)
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     Reveal.initialize({
       hash: true,
-      transition: 'slide',
+      width: 1280,
+      height: 720,
+      margin: 0.04,
+      center: false,
+      transition: 'fade',
+      backgroundTransition: 'fade',
+      slideNumber: 'c/t',
       plugins: [RevealHighlight, RevealNotes]
     });
+
+    lucide.createIcons();
   </script>
 </body>
 
