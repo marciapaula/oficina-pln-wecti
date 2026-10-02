@@ -1065,6 +1065,82 @@
       /* some com o fundo branco da imagem */
     }
 
+    /* Linha: LinkedIn | robô | LinkedIn */
+    .thanks__row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 44px;
+      margin-top: 24px;
+    }
+
+    .thanks__row .thanks__robot {
+      margin-top: 0;
+      width: 340px;
+      height: 340px;
+    }
+
+    .thanks__row .thanks__robot img {
+      height: 300px;
+    }
+
+    .profile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 330px;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .profile__qr {
+      display: block;
+      padding: 10px;
+      border-radius: 14px;
+      background: #fff;
+      box-shadow: 0 0 0 5px var(--primary-soft), 0 0 30px -8px var(--primary-glow);
+    }
+
+    .profile__qr img {
+      display: block;
+      width: 190px;
+      height: 190px;
+    }
+
+    .profile__name {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 6px;
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 600;
+      white-space: nowrap;
+      color: var(--text);
+    }
+
+    /* Selo "in" no lugar do ícone do LinkedIn */
+    .profile__badge {
+      display: inline-grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      background: #0a66c2;
+    }
+
+    .profile__link {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      line-height: 1.4;
+      color: var(--primary);
+    }
+
     .thanks__footer {
       margin-top: auto !important;
       font-size: var(--fs-caption);
@@ -2265,9 +2341,32 @@ print(resultado)
           <h1 class="glow">Muito Obrigado!</h1>
           <p class="lead"></p>
 
-          <div class="thanks__robot fragment">
-            <img src="./imgs/depositphotos_472711578-stock-photo-little-robot-giving-thumbs-isolated.jpg"
-              alt="Robô de Inteligência Artificial agradecendo">
+          <!-- Robô no centro, com o LinkedIn de cada apresentador de um lado -->
+          <div class="thanks__row fragment">
+            <a class="profile"
+              href="https://www.linkedin.com/in/alexandro-de-araujo-junior?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              target="_blank">
+              <span class="profile__qr">
+                <img src="./imgs/adobe-express-qr-code(3)-Alexandro.png" alt="QR code do LinkedIn de Alexandro">
+              </span>
+              <span class="profile__name"><span class="profile__badge">in</span> Alexandro de Araujo Junior</span>
+              <span class="profile__link">linkedin.com/in/<br>alexandro-de-araujo-junior</span>
+            </a>
+
+            <div class="thanks__robot">
+              <img src="./imgs/depositphotos_472711578-stock-photo-little-robot-giving-thumbs-isolated.jpg"
+                alt="Robô de Inteligência Artificial agradecendo">
+            </div>
+
+            <a class="profile"
+              href="https://www.linkedin.com/in/m%C3%A1rcia-paula?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+              target="_blank">
+              <span class="profile__qr">
+                <img src="./imgs/adobe-express-qr-code-(3)-marcia.png" alt="QR code do LinkedIn de Márcia Paula">
+              </span>
+              <span class="profile__name"><span class="profile__badge">in</span> Márcia Paula</span>
+              <span class="profile__link">linkedin.com/in/<br>márcia-paula</span>
+            </a>
           </div>
 
           <p class="thanks__footer">Apresentação criada com ❤️, Python e muito Processamento de Linguagem Natural.</p>
@@ -2288,8 +2387,8 @@ print(resultado)
               <h2 class="access-title">Link para de acesso aos códigos da aula de PLN</h2>
               <p class="lead">Acesse os códigos da aula em:</p>
               <a class="access-link"
-                href="https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing"
-                target="_blank">https://drive.google.com/drive/folders/1UiTOEyWFBVNjk8Zwhc86-4c5QjF5ESaL?usp=sharing</a>
+                href="https://drive.google.com/drive/folders/12vMM2wrgkR2aBm8CUoG_IZ0t6qA08eGE?usp=sharing"
+                target="_blank">https://drive.google.com/drive/folders/12vMM2wrgkR2aBm8CUoG_IZ0t6qA08eGE?usp=sharing</a>
             </div>
 
             <div class="qr-card">
